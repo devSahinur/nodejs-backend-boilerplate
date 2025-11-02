@@ -1,7 +1,7 @@
-const httpStatus = require("http-status");
-const { Terms } = require("../models");
-const ApiError = require("../utils/ApiError");
-const he = require("he");
+import httpStatus from 'http-status';
+import { Terms } from '../models/index.js';
+import ApiError from '../utils/ApiError.js';
+import he from 'he';
 
 const createTerms = async (termsBody) => {
   termsBody.content = he.decode(termsBody.content);
@@ -24,7 +24,4 @@ const queryTerms = async () => {
   return terms;
 };
 
-module.exports = {
-  createTerms,
-  queryTerms,
-};
+export { createTerms, queryTerms };

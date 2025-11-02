@@ -1,7 +1,7 @@
-const httpStatus = require('http-status');
-const { Privacy } = require('../models');
-const ApiError = require('../utils/ApiError');
-const he = require('he');
+import httpStatus from 'http-status';
+import { Privacy } from '../models/index.js';
+import ApiError from '../utils/ApiError.js';
+import he from 'he';
 
 
 const createPrivacy = async (privacyBody) => {
@@ -28,7 +28,4 @@ const queryPrivacy = async () => {
 };
 
 
-module.exports = {
-    createPrivacy,
-    queryPrivacy
-};
+export { createPrivacy, queryPrivacy };

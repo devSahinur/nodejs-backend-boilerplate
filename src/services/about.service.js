@@ -1,7 +1,7 @@
-const httpStatus = require('http-status');
-const { About } = require('../models');
-const ApiError = require('../utils/ApiError');
-const he = require('he');
+import httpStatus from 'http-status';
+import { About } from '../models/index.js';
+import ApiError from '../utils/ApiError.js';
+import he from 'he';
 
 
 const createAbout = async (aboutBody) => {
@@ -28,7 +28,4 @@ const queryAbouts = async () => {
     return abouts;
 };
 
-module.exports = {
-    createAbout,
-    queryAbouts
-};
+export { createAbout, queryAbouts };
