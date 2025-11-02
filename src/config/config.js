@@ -62,8 +62,8 @@ const config = {
   mongoose: {
     url: envVars.MONGODB_URL + (envVars.NODE_ENV === 'test' ? '-test' : ''),
     options: {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
+      // Modern MongoDB driver doesn't need these deprecated options
+      // Mongoose 6+ handles connection management automatically
     },
   },
   redis: {
