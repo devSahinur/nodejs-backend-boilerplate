@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { toJSON, paginate } from './plugins.js';
+import { toJSON, paginate } from './plugins/index.js';
 
 const notificationSchema = new mongoose.Schema(
   {

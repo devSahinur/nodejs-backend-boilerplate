@@ -206,6 +206,21 @@ const interestList = async () => {
   return interest;
 };
 
+export default {
+  createUser,
+  queryUsers,
+  getUserById,
+  getUserByEmail,
+  updateUserById,
+  deleteUserById,
+  isUpdateUser,
+  verifyNid,
+  nidVerifyApproval,
+  nidVerifyReject,
+  nidVerifySubmitList,
+  interestList
+};
+
 export {
   createUser,
   queryUsers,

@@ -117,6 +117,19 @@ const updateProductStock = async (productId, quantity) => {
   return product;
 };
 
+export default {
+  createProduct,
+  queryProducts,
+  getProductById,
+  getProductBySlug,
+  updateProductById,
+  deleteProductById,
+  searchProducts,
+  getProductsByCategory,
+  getFeaturedProducts,
+  updateProductStock,
+};
+
 export {
   createProduct,
   queryProducts,

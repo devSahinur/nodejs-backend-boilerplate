@@ -39,6 +39,15 @@ const unsubscribeFromTopic = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).send(result);
 });
 
+export default {
+  sendEmail,
+  sendPushNotification,
+  sendMulticastNotification,
+  sendTopicNotification,
+  subscribeToTopic,
+  unsubscribeFromTopic,
+};
+
 export {
   sendEmail,
   sendPushNotification,

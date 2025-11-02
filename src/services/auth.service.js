@@ -147,6 +147,17 @@ const deleteMe = async (password, reqUser) => {
   return user;
 };
 
+export default {
+  loginUserWithEmailAndPassword,
+  logout,
+  refreshAuth,
+  resetPassword,
+  verifyEmail,
+  deleteMe,
+  changePassword,
+  verifyNumber,
+};
+
 export {
   loginUserWithEmailAndPassword,
   logout,

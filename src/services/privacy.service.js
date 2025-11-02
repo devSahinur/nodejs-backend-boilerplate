@@ -28,4 +28,6 @@ const queryPrivacy = async () => {
 };
 
 
+export default { createPrivacy, queryPrivacy };
+
 export { createPrivacy, queryPrivacy };

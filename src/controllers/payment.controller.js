@@ -28,4 +28,6 @@ const handleWebhook = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).send({ received: true });
 });
 
+export default { createPaymentIntent, getPaymentIntent, createRefund, handleWebhook };
+
 export { createPaymentIntent, getPaymentIntent, createRefund, handleWebhook };

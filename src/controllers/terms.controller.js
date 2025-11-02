@@ -15,6 +15,11 @@ const getTerms = catchAsync(async (req, res) => {
     res.status(httpStatus.OK).json(response({ message:"Terms", status: "OK", statusCode:httpStatus.OK , data: result}));
 });
 
+export default {
+    createTerms,
+    getTerms
+};
+
 export {
     createTerms,
     getTerms

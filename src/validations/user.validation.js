@@ -55,6 +55,15 @@ const getHome = {
  
 };
 
+export default {
+  getHome,
+  createUser,
+  getUsers,
+  getUser,
+  updateUser,
+  deleteUser,
+};
+
 export {
   getHome,
   createUser,

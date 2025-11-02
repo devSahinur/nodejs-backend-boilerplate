@@ -28,4 +28,6 @@ const queryAbouts = async () => {
     return abouts;
 };
 
+export default { createAbout, queryAbouts };
+
 export { createAbout, queryAbouts };

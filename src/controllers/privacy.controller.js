@@ -16,6 +16,11 @@ const getPrivacy = catchAsync(async (req, res) => {
     res.status(httpStatus.OK).json(response({ message:"Privacy", status: "OK", statusCode:httpStatus.OK , data: result}));
 });
 
+export default {
+    createPrivacy,
+    getPrivacy
+};
+
 export {
     createPrivacy,
     getPrivacy

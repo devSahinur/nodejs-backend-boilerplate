@@ -192,6 +192,19 @@ const deleteMe = catchAsync(async (req, res) => {
   );
 });
 
+export default {
+  register,
+  login,
+  logout,
+  refreshTokens,
+  forgotPassword,
+  resetPassword,
+  sendVerificationEmail,
+  verifyEmail,
+  deleteMe,
+  changePassword,
+};
+
 export {
   register,
   login,

@@ -47,4 +47,6 @@ const getOrdersByStatus = catchAsync(async (req, res) => {
   res.send(result);
 });
 
+export default { createOrder, getOrders, getOrder, getMyOrders, updateOrderStatus, cancelOrder, getOrdersByStatus };
+
 export { createOrder, getOrders, getOrder, getMyOrders, updateOrderStatus, cancelOrder, getOrdersByStatus };

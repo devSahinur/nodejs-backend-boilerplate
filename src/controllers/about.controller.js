@@ -15,6 +15,11 @@ const getAbouts = catchAsync(async (req, res) => {
     res.status(httpStatus.OK).json(response({ message:"About", status: "OK", statusCode:httpStatus.OK , data: result}));
 });
 
+export default {
+    createAbout,
+    getAbouts
+};
+
 export {
     createAbout,
     getAbouts

@@ -84,6 +84,15 @@ const generateVerifyEmailToken = async (user) => {
   return verifyEmailToken;
 };
 
+export default {
+  generateToken,
+  saveToken,
+  verifyToken,
+  generateAuthTokens,
+  generateResetPasswordToken,
+  generateVerifyEmailToken,
+};
+
 export {
   generateToken,
   saveToken,

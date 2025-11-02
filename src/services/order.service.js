@@ -181,6 +181,16 @@ const getOrdersByStatus = async (status, options) => {
   return Order.findByStatus(status, options);
 };
 
+export default {
+  createOrder,
+  queryOrders,
+  getOrderById,
+  getUserOrders,
+  updateOrderStatus,
+  cancelOrder,
+  getOrdersByStatus,
+};
+
 export {
   createOrder,
   queryOrders,

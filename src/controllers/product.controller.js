@@ -65,6 +65,18 @@ const getFeaturedProducts = catchAsync(async (req, res) => {
   res.send(result);
 });
 
+export default {
+  createProduct,
+  getProducts,
+  getProduct,
+  getProductBySlug,
+  updateProduct,
+  deleteProduct,
+  searchProducts,
+  getProductsByCategory,
+  getFeaturedProducts,
+};
+
 export {
   createProduct,
   getProducts,

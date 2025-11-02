@@ -67,6 +67,14 @@ If you did not create an account, then ignore this email.`;
   await sendEmail(to, subject, text);
 };
 
+export default {
+  transport,
+  sendEmail,
+  sendResetPasswordEmail,
+  sendVerificationEmail,
+  sendEmailVerification,
+};
+
 export {
   transport,
   sendEmail,

@@ -24,4 +24,6 @@ const queryTerms = async () => {
   return terms;
 };
 
+export default { createTerms, queryTerms };
+
 export { createTerms, queryTerms };

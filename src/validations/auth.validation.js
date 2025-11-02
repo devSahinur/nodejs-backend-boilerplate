@@ -72,6 +72,18 @@ const verifyOTP = {
     otpCode: Joi.string().required(),
   }),
 }
+export default {
+  register,
+  login,
+  logout,
+  refreshTokens,
+  forgotPassword,
+  resetPassword,
+  verifyEmail,
+  deleteMe,
+  changePassword,
+};
+
 export {
   register,
   login,
