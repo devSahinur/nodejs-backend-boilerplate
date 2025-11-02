@@ -39,6 +39,14 @@ const envVarsSchema = Joi.object()
     AWS_SECRET_ACCESS_KEY: Joi.string().description('AWS secret access key'),
     AWS_REGION: Joi.string().default('us-east-1').description('AWS region'),
     S3_BUCKET_NAME: Joi.string().description('S3 bucket name for file uploads'),
+    LOG_REPORT_ENABLED: Joi.boolean().default(false).description('Enable/disable automatic log reports'),
+    LOG_REPORT_FREQUENCY: Joi.string()
+      .valid('daily', 'weekly', 'biweekly', 'monthly', 'every3days', 'every7days', 'hourly', 'every10min')
+      .default('weekly')
+      .description('Frequency of log reports'),
+    LOG_REPORT_DAYS: Joi.number().default(7).description('Number of days to include in log report'),
+    LOG_REPORT_RECIPIENTS: Joi.string().description('Comma-separated list of email recipients for log reports'),
+    LOG_REPORT_TIMEZONE: Joi.string().default('UTC').description('Timezone for scheduled reports'),
   })
   .unknown();
 
@@ -96,6 +104,16 @@ const config = {
     region: envVars.AWS_REGION,
     s3BucketName: envVars.S3_BUCKET_NAME,
   },
+  logReport: {
+    enabled: envVars.LOG_REPORT_ENABLED,
+    frequency: envVars.LOG_REPORT_FREQUENCY,
+    days: envVars.LOG_REPORT_DAYS,
+    recipients: envVars.LOG_REPORT_RECIPIENTS
+      ? envVars.LOG_REPORT_RECIPIENTS.split(',').map((email) => email.trim())
+      : [],
+    timezone: envVars.LOG_REPORT_TIMEZONE,
+  },
+  name: 'Node.js Backend Boilerplate',
 };
 
 export default config;

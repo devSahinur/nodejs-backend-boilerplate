@@ -48,10 +48,11 @@ A **professional, universal, production-ready Node.js backend boilerplate** buil
 - 🔄 **Bull Queues** for background jobs
 - 📊 **Prometheus Metrics** endpoint
 - 📝 **Swagger/OpenAPI Documentation**
+- 📧 **Automated Log Reports** via email (daily, weekly, monthly, custom)
 - 🧪 **Jest** testing with Supertest
 - 🔍 **ESLint** & **Prettier** for code quality
 - 🪝 **Husky** pre-commit hooks
-- 🚀 **GitHub Actions CI/CD** pipeline
+- 🚀 **GitHub Actions CI/CD** pipeline (disabled by default for template)
 - 🔒 **Security best practices** (Helmet, XSS, Rate limiting)
 
 ## Prerequisites
@@ -695,6 +696,146 @@ git commit -m "feat: add new feature"
 # Husky will run lint and format automatically
 ```
 
+## Automated Log Reports
+
+The boilerplate includes a powerful automated log reporting system that sends email summaries of your application logs on a configurable schedule.
+
+### Features
+
+- 📧 **Email Reports**: Receive beautifully formatted HTML email reports
+- ⏰ **Flexible Scheduling**: Daily, weekly, monthly, or custom schedules
+- 📊 **Comprehensive Stats**: Error counts, warnings, system metrics
+- 🎨 **Visual Dashboard**: Color-coded health status and statistics
+- 🔍 **Error Details**: Top errors and warnings with timestamps
+- 💻 **System Metrics**: Memory usage, uptime, Node.js version
+- 🌍 **Timezone Support**: Configure reports in any timezone
+- 👥 **Multiple Recipients**: Send to multiple email addresses
+
+### Configuration
+
+Add these settings to your `.env` file:
+
+```bash
+# Enable or disable automatic log reports
+LOG_REPORT_ENABLED=true
+
+# Frequency: daily, weekly, biweekly, monthly, every3days, every7days
+LOG_REPORT_FREQUENCY=weekly
+
+# Number of days to include in the report
+LOG_REPORT_DAYS=7
+
+# Comma-separated list of email recipients
+LOG_REPORT_RECIPIENTS=admin@example.com,devops@example.com
+
+# Timezone (e.g., UTC, America/New_York, Asia/Dhaka, Europe/London)
+LOG_REPORT_TIMEZONE=UTC
+```
+
+### Schedule Options
+
+| Frequency | Description | Report Days |
+|-----------|-------------|-------------|
+| `daily` | Every day at 9:00 AM | 1 |
+| `weekly` | Every Monday at 9:00 AM | 7 |
+| `biweekly` | Every 2 weeks on Monday at 9:00 AM | 14 |
+| `monthly` | First day of each month at 9:00 AM | 30 |
+| `every3days` | Every 3 days at 9:00 AM | 3 |
+| `every7days` | Every 7 days at 9:00 AM | 7 |
+| `hourly` | Every hour (for testing) | 1 |
+| `every10min` | Every 10 minutes (for testing) | 1 |
+
+### Email Report Contents
+
+Each report includes:
+
+1. **Health Status Badge**: Visual indicator (HEALTHY, ATTENTION, WARNING, CRITICAL)
+2. **Statistics Grid**:
+   - Total log entries
+   - Error count
+   - Warning count
+   - Error rate percentage
+3. **Recent Errors**: Top 10 most recent errors with stack traces
+4. **Recent Warnings**: Top 10 warnings
+5. **System Metrics**:
+   - Application uptime
+   - Memory usage (RSS, Heap)
+   - Node.js version
+   - Platform information
+6. **Log Distribution**: Breakdown by log level (info, http, debug)
+
+### Health Status Thresholds
+
+| Status | Error Count | Color |
+|--------|-------------|-------|
+| HEALTHY | 0-10 errors | Green |
+| ATTENTION | 11-50 errors | Yellow |
+| WARNING | 51-100 errors | Orange |
+| CRITICAL | 100+ errors | Red |
+
+### Manual Report Trigger
+
+You can manually trigger a log report without waiting for the schedule:
+
+```javascript
+import { sendImmediateReport } from './src/config/scheduler.js';
+
+// Send to configured recipients
+await sendImmediateReport();
+
+// Send to custom recipients with custom days
+await sendImmediateReport(['custom@example.com'], 30);
+```
+
+### Customizing Report Time
+
+To change when reports are sent, modify the schedule in `src/config/scheduler.js`:
+
+```javascript
+const SCHEDULE_PATTERNS = {
+  daily: '0 9 * * *',        // 9:00 AM every day
+  weekly: '0 9 * * 1',       // 9:00 AM every Monday
+  // Cron format: minute hour day month day-of-week
+};
+```
+
+Cron format examples:
+- `0 9 * * *` - Daily at 9:00 AM
+- `0 0 * * 0` - Weekly on Sunday at midnight
+- `0 18 * * 5` - Weekly on Friday at 6:00 PM
+- `0 8 1 * *` - Monthly on the 1st at 8:00 AM
+
+### Disabling Log Reports
+
+Set `LOG_REPORT_ENABLED=false` in your `.env` file or comment out the `startLogReportScheduler()` call in `src/index.js`.
+
+### Testing
+
+For testing purposes, use shorter intervals:
+
+```bash
+LOG_REPORT_ENABLED=true
+LOG_REPORT_FREQUENCY=every10min
+LOG_REPORT_DAYS=1
+LOG_REPORT_RECIPIENTS=your-email@example.com
+```
+
+Then check your email after 10 minutes to verify the report format.
+
+### Troubleshooting
+
+**No emails received?**
+1. Check SMTP configuration in `.env`
+2. Verify `LOG_REPORT_ENABLED=true`
+3. Ensure recipients are configured correctly
+4. Check application logs for scheduler errors
+5. For Gmail, use an [App Password](https://support.google.com/accounts/answer/185833)
+
+**Want different report formats?**
+- Modify `src/services/emailReport.service.js`
+- Customize HTML template in `generateEmailTemplate()`
+- Add custom metrics in `src/services/logReport.service.js`
+
 ## Deployment
 
 ### Option 1: AWS ECS (Recommended for Production)
@@ -727,11 +868,25 @@ git commit -m "feat: add new feature"
    git push origin main
    ```
 
+#### Enabling CI/CD (Optional)
+
+The CI/CD workflow is disabled by default for the template. To enable it:
+
+```bash
+# Rename the workflow file to enable it
+mv .github/workflows/ci-cd.yml.disabled .github/workflows/ci-cd.yml
+```
+
 The GitHub Actions workflow will:
 - Run tests
 - Build Docker image
 - Push to Amazon ECR
 - Deploy to AWS ECS
+
+**Note**: Make sure to configure GitHub Secrets for AWS credentials:
+- `AWS_ACCESS_KEY_ID`
+- `AWS_SECRET_ACCESS_KEY`
+- `CODECOV_TOKEN` (optional)
 
 ### Option 2: Heroku
 

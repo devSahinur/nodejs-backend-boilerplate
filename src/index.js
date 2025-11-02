@@ -4,6 +4,7 @@ import logger from './config/logger.js';
 import { connectDB, closeDB } from './config/database.js';
 import { closeRedis } from './config/redis.js';
 import { closeQueues } from './queues/index.js';
+import { startLogReportScheduler, stopAllSchedulers } from './config/scheduler.js';
 
 // Import queue processors to start them
 import './queues/processors/email.processor.js';
@@ -26,6 +27,9 @@ const startServer = async () => {
       logger.info(`API Documentation available at http://localhost:${config.port}/api-docs`);
       logger.info(`Health check available at http://localhost:${config.port}/health`);
       logger.info(`Metrics available at http://localhost:${config.port}/metrics`);
+
+      // Start log report scheduler
+      startLogReportScheduler();
     });
   } catch (error) {
     logger.error('Failed to start server:', error);
@@ -44,6 +48,7 @@ const exitHandler = async () => {
       logger.info('HTTP server closed');
 
       try {
+        stopAllSchedulers();
         await closeQueues();
         await closeRedis();
         await closeDB();
