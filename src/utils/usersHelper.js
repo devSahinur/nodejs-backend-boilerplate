@@ -1,7 +1,5 @@
-const mongoose = require('mongoose');
-
-// Assuming you have a 'User' schema defined
-const User = require('../models/user.model'); // Import your User model
+import mongoose from 'mongoose';
+import User from '../models/user.model.js';
 
 var user = {};
 
@@ -27,4 +25,4 @@ user.setUserOffline = function (id, callback) {
     });
 };
 
-module.exports = user;
+export default user;

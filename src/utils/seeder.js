@@ -1,7 +1,9 @@
-const mongoose = require("mongoose");
-require("dotenv").config();
-const { Service, User, Interest } = require("../models");
-const interests = require("../db/interest.json");
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import { Service, User, Interest } from "../models/index.js";
+import interests from "../db/interest.json" assert { type: "json" };
+
+dotenv.config();
 
 // Sample data
 const usersData = [

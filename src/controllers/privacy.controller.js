@@ -1,9 +1,9 @@
-const httpStatus = require('http-status');
-const pick = require('../utils/pick');
-const ApiError = require('../utils/ApiError');
-const catchAsync = require('../utils/catchAsync');
-const response = require("../config/response");
-const { privacyService } = require('../services');
+import httpStatus from 'http-status';
+import pick from '../utils/pick.js';
+import ApiError from '../utils/ApiError.js';
+import catchAsync from '../utils/catchAsync.js';
+import response from '../config/response.js';
+import { privacyService } from '../services/index.js';
 
 const createPrivacy = catchAsync(async (req, res) => {
     const privacy = await privacyService.createPrivacy(req.body);
@@ -16,7 +16,7 @@ const getPrivacy = catchAsync(async (req, res) => {
     res.status(httpStatus.OK).json(response({ message:"Privacy", status: "OK", statusCode:httpStatus.OK , data: result}));
 });
 
-module.exports = {
+export {
     createPrivacy,
     getPrivacy
 };

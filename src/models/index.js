@@ -1,13 +1,13 @@
-module.exports.Token = require('./token.model');
-module.exports.User = require('./user.model');
-module.exports.Service = require('./service.model')
-module.exports.Tasks = require('./tasks.model')
-module.exports.Referral = require('./referral.model')
-module.exports.Notification = require('./notification.model')
-module.exports.Payment = require('./payment.model')
-module.exports.Terms = require('./terms.model')
-module.exports.Privacy = require('./privacy.model')
-module.exports.About = require('./about.model')
-module.exports.Withdrawal = require('./withdrawal.model')
-module.exports.SubmitTask = require('./submitTask.model')
-module.exports.Interest = require('./interest.model')
+export { default as Token } from './token.model.js';
+export { default as User } from './user.model.js';
+export { default as Service } from './service.model.js';
+export { default as Tasks } from './tasks.model.js';
+export { default as Referral } from './referral.model.js';
+export { default as Notification } from './notification.model.js';
+export { default as Payment } from './payment.model.js';
+export { default as Terms } from './terms.model.js';
+export { default as Privacy } from './privacy.model.js';
+export { default as About } from './about.model.js';
+export { default as Withdrawal } from './withdrawal.model.js';
+export { default as SubmitTask } from './submitTask.model.js';
+export { default as Interest } from './interest.model.js';

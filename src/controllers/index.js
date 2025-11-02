@@ -1,10 +1,7 @@
-module.exports.authController = require('./auth.controller');
-module.exports.userController = require('./user.controller');
-module.exports.tasksController = require('./tasks.controller');
-module.exports.referralController = require('./referral.controller');
-module.exports.termsController = require('./terms.controller');
-module.exports.privacyController = require('./privacy.controller');
-module.exports.aboutController = require('./about.controller');
-
-
-
+export * as authController from './auth.controller.js';
+export * as userController from './user.controller.js';
+export * as tasksController from './tasks.controller.js';
+export * as referralController from './referral.controller.js';
+export * as termsController from './terms.controller.js';
+export * as privacyController from './privacy.controller.js';
+export * as aboutController from './about.controller.js';

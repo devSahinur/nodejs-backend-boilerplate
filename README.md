@@ -944,22 +944,327 @@ nodejs-backend-boilerplate/
 
 ## Available Scripts
 
-| Script | Description |
-|--------|-------------|
-| `npm run dev` | Start development server with hot reload |
-| `npm start` | Start production server |
-| `npm test` | Run tests |
-| `npm run test:watch` | Run tests in watch mode |
-| `npm run lint` | Check for linting errors |
-| `npm run format` | Format code with Prettier |
-| `npm run docker:up` | Start Docker containers |
-| `npm run docker:down` | Stop Docker containers |
-| `npm run docker:build` | Rebuild Docker containers |
-| `npm run seed` | Seed database with sample data |
-| `npm run migrate:up` | Run database migrations |
-| `npm run migrate:down` | Rollback last migration |
-| `npm run migrate:create` | Create new migration |
-| `npm run prepare` | Set up Husky hooks |
+This boilerplate includes a comprehensive set of npm scripts to streamline your development workflow. Below is a detailed explanation of each script:
+
+### Development Scripts
+
+#### `npm run dev`
+**Description:** Starts the development server with automatic hot-reload using Nodemon.
+
+**When to use:** During active development when you want the server to automatically restart on file changes.
+
+**Example:**
+```bash
+npm run dev
+```
+
+**Output:** Server starts on `http://localhost:3000` with auto-reload enabled.
+
+---
+
+#### `npm start`
+**Description:** Starts the production server without hot-reload.
+
+**When to use:** In production environments or when you want to test the production build locally.
+
+**Example:**
+```bash
+NODE_ENV=production npm start
+```
+
+**Note:** Ensure all environment variables are set before running in production.
+
+---
+
+### Testing Scripts
+
+#### `npm test`
+**Description:** Runs all test suites with coverage reporting using Jest.
+
+**When to use:** Before committing code, in CI/CD pipelines, or when you want to verify all tests pass.
+
+**Example:**
+```bash
+npm test
+```
+
+**What it does:**
+- Runs all `*.test.js` and `*.spec.js` files
+- Generates coverage reports in `coverage/` directory
+- Requires 70% code coverage (configurable in `jest.config.js`)
+
+**View coverage report:**
+```bash
+open coverage/lcov-report/index.html  # macOS
+xdg-open coverage/lcov-report/index.html  # Linux
+```
+
+---
+
+#### `npm run test:watch`
+**Description:** Runs tests in watch mode, re-running tests when files change.
+
+**When to use:** During test-driven development (TDD) or when actively writing tests.
+
+**Example:**
+```bash
+npm run test:watch
+```
+
+**Features:**
+- Automatically re-runs tests on file changes
+- Interactive mode with options to filter tests
+- Press `p` to filter by filename pattern
+- Press `t` to filter by test name pattern
+
+---
+
+### Code Quality Scripts
+
+#### `npm run lint`
+**Description:** Checks and automatically fixes code style issues using ESLint.
+
+**When to use:** Before committing code or when you want to enforce coding standards.
+
+**Example:**
+```bash
+npm run lint
+```
+
+**What it checks:**
+- Airbnb JavaScript style guide compliance
+- Import/export statement correctness
+- Potential bugs and code smells
+- Best practices for Node.js and Express
+
+**Configuration:** See `.eslintrc.json` for rules.
+
+---
+
+#### `npm run format`
+**Description:** Formats all code files according to Prettier configuration.
+
+**When to use:** Before committing code to ensure consistent formatting across the codebase.
+
+**Example:**
+```bash
+npm run format
+```
+
+**What it formats:**
+- JavaScript/JSON files
+- Markdown documentation
+- YAML configuration files
+
+**Check without formatting:**
+```bash
+npm run format -- --check
+```
+
+**Configuration:** See `.prettierrc` for formatting rules.
+
+---
+
+### Docker Scripts
+
+#### `npm run docker:up`
+**Description:** Starts all Docker containers in detached mode (app, MongoDB, Redis).
+
+**When to use:** When you want to run the entire stack using Docker without installing MongoDB and Redis locally.
+
+**Example:**
+```bash
+npm run docker:up
+```
+
+**What it starts:**
+- Application container on port 3000
+- MongoDB container on port 27017
+- Redis container on port 6379
+- Mongo Express (DB admin UI) on port 8081
+
+**Access services:**
+- API: http://localhost:3000
+- Mongo Express: http://localhost:8081 (admin/pass)
+
+---
+
+#### `npm run docker:down`
+**Description:** Stops and removes all Docker containers.
+
+**When to use:** When you're done with Docker development and want to free up resources.
+
+**Example:**
+```bash
+npm run docker:down
+```
+
+**Remove volumes too:**
+```bash
+npm run docker:down -- -v
+```
+
+---
+
+#### `npm run docker:build`
+**Description:** Rebuilds Docker images from scratch.
+
+**When to use:** After changing Dockerfile, package.json dependencies, or when images are corrupted.
+
+**Example:**
+```bash
+npm run docker:build
+```
+
+**Force rebuild without cache:**
+```bash
+npm run docker:build -- --no-cache
+```
+
+---
+
+### Database Scripts
+
+#### `npm run seed`
+**Description:** Populates the database with sample data for development.
+
+**When to use:** After initial setup or when you need fresh test data.
+
+**Example:**
+```bash
+npm run seed
+```
+
+**What it creates:**
+- Admin user (admin@example.com / Admin123!)
+- Sample products with categories
+- Sample orders
+
+**Note:** Clears existing data before seeding. Use with caution in production.
+
+---
+
+#### `npm run migrate:up`
+**Description:** Runs pending database migrations.
+
+**When to use:** After pulling new code with database schema changes or when deploying to production.
+
+**Example:**
+```bash
+npm run migrate:up
+```
+
+**Configuration:** See `migrate-mongo-config.js` and `migrations/` directory.
+
+---
+
+#### `npm run migrate:down`
+**Description:** Rolls back the last applied migration.
+
+**When to use:** When you need to undo the most recent database migration.
+
+**Example:**
+```bash
+npm run migrate:down
+```
+
+**Warning:** This may result in data loss. Always backup your database first.
+
+---
+
+#### `npm run migrate:create <name>`
+**Description:** Creates a new migration file.
+
+**When to use:** When you need to make database schema changes.
+
+**Example:**
+```bash
+npm run migrate:create add_user_roles
+```
+
+**Output:** Creates a new file in `migrations/` directory with timestamp.
+
+---
+
+### Git Hooks Script
+
+#### `npm run prepare`
+**Description:** Installs Husky git hooks for pre-commit validation.
+
+**When to use:** Automatically runs after `npm install`. Manually run if hooks aren't working.
+
+**Example:**
+```bash
+npm run prepare
+```
+
+**What it sets up:**
+- Pre-commit hook: Runs linting and formatting on staged files
+- Commit-msg hook: Validates commit message format (Conventional Commits)
+
+**Bypass hooks (not recommended):**
+```bash
+git commit --no-verify -m "message"
+```
+
+---
+
+### Quick Reference Table
+
+| Script | Use Case | Required Services |
+|--------|----------|-------------------|
+| `npm run dev` | Local development | MongoDB, Redis |
+| `npm start` | Production run | MongoDB, Redis |
+| `npm test` | Testing & CI/CD | MongoDB, Redis |
+| `npm run test:watch` | TDD workflow | MongoDB, Redis |
+| `npm run lint` | Code quality check | None |
+| `npm run format` | Code formatting | None |
+| `npm run docker:up` | Docker development | Docker |
+| `npm run docker:down` | Stop Docker | Docker |
+| `npm run docker:build` | Rebuild images | Docker |
+| `npm run seed` | Generate test data | MongoDB |
+| `npm run migrate:up` | Apply migrations | MongoDB |
+| `npm run migrate:down` | Revert migration | MongoDB |
+| `npm run migrate:create` | Create migration | None |
+| `npm run prepare` | Setup git hooks | None |
+
+---
+
+### Common Workflows
+
+**Starting development for the first time:**
+```bash
+npm install
+cp .env.example .env  # Configure your environment
+npm run migrate:up    # Apply database migrations
+npm run seed          # Add sample data
+npm run dev           # Start developing
+```
+
+**Before committing code:**
+```bash
+npm run lint          # Fix code style issues
+npm run format        # Format all files
+npm test              # Ensure tests pass
+git add .
+git commit -m "feat: your feature"  # Husky hooks run automatically
+```
+
+**Using Docker:**
+```bash
+npm run docker:build  # First time only
+npm run docker:up     # Start all services
+# Develop...
+npm run docker:down   # When finished
+```
+
+**Deploying to production:**
+```bash
+npm run lint
+npm test
+npm run migrate:up    # On production server
+NODE_ENV=production npm start
+```
 
 ## Troubleshooting
 

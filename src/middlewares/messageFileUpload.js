@@ -1,7 +1,7 @@
-const multer = require("multer");
-const path = require("path");
+import multer from "multer";
+import path from "path";
 
-module.exports = function (UPLOADS_FOLDER) {
+export default function (UPLOADS_FOLDER) {
   const storage = multer.diskStorage({
     destination: (req, file, cb) => {
       cb(null, UPLOADS_FOLDER); // Use the provided destination folder
@@ -22,9 +22,9 @@ module.exports = function (UPLOADS_FOLDER) {
   });
 
   const allowedTypes = [
-    'application/pdf', 
-    'application/msword', 
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 
+    'application/pdf',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     'image',
     'audio',
     'video'
@@ -46,4 +46,4 @@ module.exports = function (UPLOADS_FOLDER) {
     },
   });
   return upload; // Return the configured multer upload middleware
-};
+}

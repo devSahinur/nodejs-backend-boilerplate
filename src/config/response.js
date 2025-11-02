@@ -20,4 +20,4 @@ const response = (response = {}) => {
   return responseObject;
 };
 
-module.exports = response;
+export default response;

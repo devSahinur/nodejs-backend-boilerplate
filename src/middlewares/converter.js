@@ -1,6 +1,6 @@
-const fs = require('fs').promises;
-const path = require('path');
-const convert = require('heic-convert');
+import { promises as fs } from 'fs';
+import path from 'path';
+import convert from 'heic-convert';
 
 const convertHeicToPngMiddleware = (UPLOADS_FOLDER) => {
   return async (req, res, next) => {
@@ -32,4 +32,4 @@ const convertHeicToPngMiddleware = (UPLOADS_FOLDER) => {
   }
 };
 
-module.exports = convertHeicToPngMiddleware;
+export default convertHeicToPngMiddleware;

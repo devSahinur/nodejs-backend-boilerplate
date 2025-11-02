@@ -1,10 +1,10 @@
-module.exports.authService = require('./auth.service');
-module.exports.emailService = require('./email.service');
-module.exports.tokenService = require('./token.service');
-module.exports.userService = require('./user.service');
-module.exports.referralService = require('./referral.service');
-module.exports.tasksService = require('./tasks.service');
-module.exports.termsService = require('./terms.service');
-module.exports.privacyService = require('./privacy.service');
-module.exports.aboutService = require('./about.service');
-module.exports.withdrawalService = require('./withdrawal.service')
+export { default as authService } from './auth.service.js';
+export { default as emailService } from './email.service.js';
+export { default as tokenService } from './token.service.js';
+export { default as userService } from './user.service.js';
+export { default as referralService } from './referral.service.js';
+export { default as tasksService } from './tasks.service.js';
+export { default as termsService } from './terms.service.js';
+export { default as privacyService } from './privacy.service.js';
+export { default as aboutService } from './about.service.js';
+export { default as withdrawalService } from './withdrawal.service.js';

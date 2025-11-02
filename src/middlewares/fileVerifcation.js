@@ -1,6 +1,7 @@
-const upload = require("./fileUpload");
-const logger = require("../config/logger");
-const response = require("../config/response");
+import upload from "./fileUpload.js";
+import logger from "../config/logger.js";
+import response from "../config/response.js";
+
 const imageVerification = (req, res, next) => {
   const files = req.files || [];
 
@@ -17,4 +18,4 @@ const imageVerification = (req, res, next) => {
   }
 };
 
-module.exports = imageVerification;
+export default imageVerification;

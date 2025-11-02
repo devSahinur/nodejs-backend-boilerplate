@@ -1,4 +1,4 @@
-const logger = require("../config/logger");
+import logger from "../config/logger.js";
 
 const socketIO = (io) => {
   io.on("connection", (socket) => {
@@ -26,4 +26,4 @@ const socketIO = (io) => {
   });
 };
 
-module.exports = socketIO;
+export default socketIO;

@@ -1,9 +1,9 @@
-const httpStatus = require('http-status');
-const pick = require('../utils/pick');
-const ApiError = require('../utils/ApiError');
-const catchAsync = require('../utils/catchAsync');
-const response = require("../config/response");
-const { termsService } = require('../services');
+import httpStatus from 'http-status';
+import pick from '../utils/pick.js';
+import ApiError from '../utils/ApiError.js';
+import catchAsync from '../utils/catchAsync.js';
+import response from '../config/response.js';
+import { termsService } from '../services/index.js';
 
 const createTerms = catchAsync(async (req, res) => {
     const terms = await termsService.createTerms(req.body);
@@ -15,7 +15,7 @@ const getTerms = catchAsync(async (req, res) => {
     res.status(httpStatus.OK).json(response({ message:"Terms", status: "OK", statusCode:httpStatus.OK , data: result}));
 });
 
-module.exports = {
+export {
     createTerms,
     getTerms
 };

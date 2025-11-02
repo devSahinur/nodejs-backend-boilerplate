@@ -1,13 +1,13 @@
-const httpStatus = require("http-status");
-const catchAsync = require("../utils/catchAsync");
-const ApiError = require("../utils/ApiError");
-const response = require("../config/response");
-const {
+import httpStatus from 'http-status';
+import catchAsync from '../utils/catchAsync.js';
+import ApiError from '../utils/ApiError.js';
+import response from '../config/response.js';
+import {
   authService,
   userService,
   tokenService,
   emailService,
-} = require("../services");
+} from '../services/index.js';
 
 const register = catchAsync(async (req, res) => {
   const isUser = await userService.getUserByEmail(req.body.email);
@@ -192,7 +192,7 @@ const deleteMe = catchAsync(async (req, res) => {
   );
 });
 
-module.exports = {
+export {
   register,
   login,
   logout,

@@ -1,4 +1,4 @@
-const fs = require("fs");
+import fs from "fs";
 
 function unlinkImage(imagePaths) {
   if (typeof imagePaths === "string") {
@@ -17,4 +17,4 @@ function unlinkImage(imagePaths) {
   });
 }
 
-module.exports = unlinkImage
+export default unlinkImage;
