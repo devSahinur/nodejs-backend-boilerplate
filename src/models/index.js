@@ -11,3 +11,6 @@ export { default as About } from './about.model.js';
 export { default as Withdrawal } from './withdrawal.model.js';
 export { default as SubmitTask } from './submitTask.model.js';
 export { default as Interest } from './interest.model.js';
+export { default as Activity } from './activity.model.js';
+export { default as Product } from './product.model.js';
+export { default as Order } from './order.model.js';
