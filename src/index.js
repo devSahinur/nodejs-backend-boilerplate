@@ -9,7 +9,6 @@ import { startLogReportScheduler, stopAllSchedulers } from './config/scheduler.j
 // Import queue processors to start them
 import './queues/processors/email.processor.js';
 import './queues/processors/notification.processor.js';
-import './queues/processors/order.processor.js';
 
 let server;
 

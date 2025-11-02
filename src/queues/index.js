@@ -30,19 +30,6 @@ const notificationQueue = new Queue('notification', {
   },
 });
 
-const orderQueue = new Queue('order', {
-  redis: config.redis,
-  defaultJobOptions: {
-    attempts: 3,
-    backoff: {
-      type: 'exponential',
-      delay: 2000,
-    },
-    removeOnComplete: true,
-    removeOnFail: false,
-  },
-});
-
 // Queue event handlers
 const setupQueueEventHandlers = (queue, name) => {
   queue.on('completed', (job, result) => {
@@ -64,7 +51,6 @@ const setupQueueEventHandlers = (queue, name) => {
 
 setupQueueEventHandlers(emailQueue, 'Email');
 setupQueueEventHandlers(notificationQueue, 'Notification');
-setupQueueEventHandlers(orderQueue, 'Order');
 
 /**
  * Process jobs with metrics
@@ -118,32 +104,19 @@ const addNotificationJob = async (notificationData) => {
 };
 
 /**
- * Add order processing job to queue
- * @param {Object} orderData - Order data
- * @returns {Promise<Object>}
- */
-const addOrderJob = async (orderData) => {
-  return orderQueue.add(orderData, {
-    priority: orderData.priority || 5,
-  });
-};
-
-/**
  * Gracefully close all queues
  * @returns {Promise<void>}
  */
 const closeQueues = async () => {
-  await Promise.all([emailQueue.close(), notificationQueue.close(), orderQueue.close()]);
+  await Promise.all([emailQueue.close(), notificationQueue.close()]);
   logger.info('All queues closed');
 };
 
 export {
   emailQueue,
   notificationQueue,
-  orderQueue,
   processWithMetrics,
   addEmailJob,
   addNotificationJob,
-  addOrderJob,
   closeQueues,
 };

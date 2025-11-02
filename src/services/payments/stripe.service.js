@@ -3,7 +3,6 @@ import config from '../../config/config.js';
 import logger from '../../config/logger.js';
 import ApiError from '../../utils/ApiError.js';
 import httpStatus from 'http-status';
-import Order from '../../models/order.model.js';
 
 const stripe = new Stripe(config.stripe.secretKey);
 
@@ -117,13 +116,9 @@ const handleWebhookEvent = async (event) => {
  */
 const handlePaymentSuccess = async (paymentIntent) => {
   try {
-    const order = await Order.findOne({ paymentIntentId: paymentIntent.id });
-    if (order) {
-      order.paymentStatus = 'paid';
-      order.status = 'processing';
-      await order.save();
-      logger.info(`Order ${order.orderNumber} payment confirmed`);
-    }
+    logger.info(`Payment succeeded for payment intent: ${paymentIntent.id}`);
+    logger.info(`Amount: ${paymentIntent.amount / 100} ${paymentIntent.currency.toUpperCase()}`);
+    // Add your custom logic here to handle successful payments
   } catch (error) {
     logger.error('Error handling payment success:', error);
   }
@@ -136,12 +131,9 @@ const handlePaymentSuccess = async (paymentIntent) => {
  */
 const handlePaymentFailure = async (paymentIntent) => {
   try {
-    const order = await Order.findOne({ paymentIntentId: paymentIntent.id });
-    if (order) {
-      order.paymentStatus = 'failed';
-      await order.save();
-      logger.info(`Order ${order.orderNumber} payment failed`);
-    }
+    logger.info(`Payment failed for payment intent: ${paymentIntent.id}`);
+    logger.info(`Last payment error: ${paymentIntent.last_payment_error?.message || 'Unknown error'}`);
+    // Add your custom logic here to handle failed payments
   } catch (error) {
     logger.error('Error handling payment failure:', error);
   }
@@ -154,13 +146,10 @@ const handlePaymentFailure = async (paymentIntent) => {
  */
 const handleRefund = async (charge) => {
   try {
-    const order = await Order.findOne({ paymentIntentId: charge.payment_intent });
-    if (order) {
-      order.paymentStatus = 'refunded';
-      order.status = 'cancelled';
-      await order.save();
-      logger.info(`Order ${order.orderNumber} refunded`);
-    }
+    logger.info(`Refund processed for charge: ${charge.id}`);
+    logger.info(`Payment intent: ${charge.payment_intent}`);
+    logger.info(`Amount refunded: ${charge.amount_refunded / 100} ${charge.currency.toUpperCase()}`);
+    // Add your custom logic here to handle refunds
   } catch (error) {
     logger.error('Error handling refund:', error);
   }

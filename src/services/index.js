@@ -3,7 +3,6 @@ export { default as emailService } from './email.service.js';
 export { default as tokenService } from './token.service.js';
 export { default as userService } from './user.service.js';
 export { default as referralService } from './referral.service.js';
-export { default as tasksService } from './tasks.service.js';
 export { default as termsService } from './terms.service.js';
 export { default as privacyService } from './privacy.service.js';
 export { default as aboutService } from './about.service.js';

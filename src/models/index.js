@@ -1,7 +1,6 @@
 export { default as Token } from './token.model.js';
 export { default as User } from './user.model.js';
 export { default as Service } from './service.model.js';
-export { default as Tasks } from './tasks.model.js';
 export { default as Referral } from './referral.model.js';
 export { default as Notification } from './notification.model.js';
 export { default as Payment } from './payment.model.js';
@@ -9,8 +8,5 @@ export { default as Terms } from './terms.model.js';
 export { default as Privacy } from './privacy.model.js';
 export { default as About } from './about.model.js';
 export { default as Withdrawal } from './withdrawal.model.js';
-export { default as SubmitTask } from './submitTask.model.js';
 export { default as Interest } from './interest.model.js';
 export { default as Activity } from './activity.model.js';
-export { default as Product } from './product.model.js';
-export { default as Order } from './order.model.js';
