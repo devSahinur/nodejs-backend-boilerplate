@@ -2,6 +2,12 @@ import cron from 'node-cron';
 import logger from './logger.js';
 import config from './config.js';
 import { sendLogReport, sendBulkLogReports } from '../services/emailReport.service.js';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /**
  * Schedule configurations for different report frequencies
@@ -48,6 +54,73 @@ const REPORT_DAYS = {
 };
 
 let scheduledTasks = [];
+
+/**
+ * Clean up old log files to prevent disk space issues
+ * Removes log files older than 30 days
+ */
+const cleanupOldLogs = () => {
+  const logsDir = path.join(__dirname, '../../logs');
+  const maxAge = 30 * 24 * 60 * 60 * 1000; // 30 days in milliseconds
+
+  try {
+    if (!fs.existsSync(logsDir)) {
+      logger.warn('Logs directory does not exist');
+      return;
+    }
+
+    const files = fs.readdirSync(logsDir);
+    const now = Date.now();
+    let deletedCount = 0;
+
+    files.forEach((file) => {
+      const filePath = path.join(logsDir, file);
+      const stats = fs.statSync(filePath);
+
+      // Delete files older than 30 days
+      if (now - stats.mtime.getTime() > maxAge) {
+        fs.unlinkSync(filePath);
+        deletedCount++;
+        logger.info(`Deleted old log file: ${file}`);
+      }
+    });
+
+    if (deletedCount > 0) {
+      logger.info(`Log cleanup completed: ${deletedCount} old log files deleted`);
+    }
+  } catch (error) {
+    logger.error(`Error during log cleanup: ${error.message}`);
+  }
+};
+
+/**
+ * Start log cleanup scheduler
+ * Runs daily at 2:00 AM to clean up old log files
+ */
+const startLogCleanupScheduler = () => {
+  logger.info('Starting log cleanup scheduler (daily at 2:00 AM)');
+
+  const task = cron.schedule(
+    '0 2 * * *', // Daily at 2:00 AM
+    () => {
+      logger.info('Executing scheduled log cleanup');
+      cleanupOldLogs();
+    },
+    {
+      scheduled: true,
+      timezone: 'UTC',
+    }
+  );
+
+  scheduledTasks.push({
+    name: 'logCleanup',
+    frequency: 'daily',
+    cronPattern: '0 2 * * *',
+    task,
+  });
+
+  logger.info('Log cleanup scheduler started successfully');
+};
 
 /**
  * Start log report scheduler
@@ -202,6 +275,8 @@ const getScheduleDescription = (frequency) => {
 
 export {
   startLogReportScheduler,
+  startLogCleanupScheduler,
+  cleanupOldLogs,
   stopAllSchedulers,
   sendImmediateReport,
   getSchedulerStatus,

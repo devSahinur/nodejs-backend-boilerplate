@@ -9,25 +9,6 @@ const createUser = async (userBody) => {
     throw new ApiError(httpStatus.BAD_REQUEST, "Email already taken");
   }
 
-  function generateReferralCode(length = 6) {
-    const characters =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    let referralCode = "";
-
-    for (let i = 0; i < length; i++) {
-      referralCode += characters.charAt(
-        Math.floor(Math.random() * characters.length)
-      );
-    }
-    return referralCode;
-  }
-
-  const referralCode = generateReferralCode();
-
-  if (userBody.role === "client" || userBody.role === "employee") {
-    userBody.referralCode = referralCode;
-  }
-
   const oneTimeCode =
     Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
 
@@ -102,25 +83,6 @@ const isUpdateUser = async (userId, updateBody) => {
   const user = await getUserById(userId);
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, "User not found");
-  }
-
-  function generateReferralCode(length = 6) {
-    const characters =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    let referralCode = "";
-
-    for (let i = 0; i < length; i++) {
-      referralCode += characters.charAt(
-        Math.floor(Math.random() * characters.length)
-      );
-    }
-    return referralCode;
-  }
-
-  const referralCode = generateReferralCode();
-
-  if (updateBody.role === "client" || updateBody.role === "employee") {
-    updateBody.referralCode = referralCode;
   }
 
   const oneTimeCode =

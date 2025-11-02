@@ -35,11 +35,15 @@ const logger = winston.createLogger({
       level: 'error',
       maxsize: 5242880, // 5MB
       maxFiles: 5,
+      tailable: true, // Always write to the same file, rotate old files
+      zippedArchive: true, // Compress old log files to save space
     }),
     new winston.transports.File({
       filename: 'logs/combined.log',
       maxsize: 5242880, // 5MB
       maxFiles: 5,
+      tailable: true, // Always write to the same file, rotate old files
+      zippedArchive: true, // Compress old log files to save space
     }),
   ],
   exitOnError: false,
