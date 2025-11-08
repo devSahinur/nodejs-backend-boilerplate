@@ -1,6 +1,5 @@
 import express from 'express';
-import validate from '../../middlewares/validate.js';
-import privacyController from '../../controllers/privacy.controller.js';
+import { privacyController } from '../../controllers/index.js';
 import auth from '../../middlewares/auth.js';
 
 const router = express.Router();

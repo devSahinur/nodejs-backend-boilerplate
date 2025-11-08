@@ -2,8 +2,7 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import convert from 'heic-convert';
 
-const convertHeicToPngMiddleware = (UPLOADS_FOLDER) => {
-  return async (req, res, next) => {
+const convertHeicToPngMiddleware = (UPLOADS_FOLDER) => async (req, res, next) => {
     // Check if req.file is present
     if (req.file && (req.file.mimetype === 'image/heic' || req.file.mimetype === 'image/heif')) {
       const heicBuffer = await fs.readFile(req.file.path);
@@ -29,7 +28,6 @@ const convertHeicToPngMiddleware = (UPLOADS_FOLDER) => {
     }
 
     next();
-  }
-};
+  };
 
 export default convertHeicToPngMiddleware;

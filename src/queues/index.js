@@ -32,7 +32,7 @@ const notificationQueue = new Queue('notification', {
 
 // Queue event handlers
 const setupQueueEventHandlers = (queue, name) => {
-  queue.on('completed', (job, result) => {
+  queue.on('completed', (job, _result) => {
     logger.info(`${name} job ${job.id} completed`);
   });
 
@@ -86,22 +86,18 @@ const processWithMetrics = (queue, processor) => {
  * @param {Object} emailData - Email data
  * @returns {Promise<Object>}
  */
-const addEmailJob = async (emailData) => {
-  return emailQueue.add(emailData, {
+const addEmailJob = async (emailData) => emailQueue.add(emailData, {
     priority: emailData.priority || 5,
   });
-};
 
 /**
  * Add notification job to queue
  * @param {Object} notificationData - Notification data
  * @returns {Promise<Object>}
  */
-const addNotificationJob = async (notificationData) => {
-  return notificationQueue.add(notificationData, {
+const addNotificationJob = async (notificationData) => notificationQueue.add(notificationData, {
     priority: notificationData.priority || 5,
   });
-};
 
 /**
  * Gracefully close all queues

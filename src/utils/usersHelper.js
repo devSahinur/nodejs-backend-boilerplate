@@ -1,26 +1,23 @@
-import mongoose from 'mongoose';
 import User from '../models/user.model.js';
 
-var user = {};
+const user = {};
 
 user.setUserOnline = function (id, callback) {
-    User.findByIdAndUpdate(id, { status: "online" }, { new: true }, function (err, user) {
+    User.findByIdAndUpdate(id, { status: "online" }, { new: true }, (err, updatedUser) => {
         if (err) {
-            console.error(err);
             callback(null, err);
         } else {
-            callback(user);
+            callback(updatedUser);
         }
     });
 };
 
 user.setUserOffline = function (id, callback) {
-    User.findByIdAndUpdate(id, { status: "offline" }, { new: true }, function (err, user) {
+    User.findByIdAndUpdate(id, { status: "offline" }, { new: true }, (err, updatedUser) => {
         if (err) {
-            console.error(err);
             callback(null, err);
         } else {
-            callback(user);
+            callback(updatedUser);
         }
     });
 };

@@ -1,10 +1,10 @@
 import cron from 'node-cron';
-import logger from './logger.js';
-import config from './config.js';
-import { sendLogReport, sendBulkLogReports } from '../services/emailReport.service.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import logger from './logger.js';
+import config from './config.js';
+import { sendBulkLogReports } from '../services/emailReport.service.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -80,7 +80,7 @@ const cleanupOldLogs = () => {
       // Delete files older than 30 days
       if (now - stats.mtime.getTime() > maxAge) {
         fs.unlinkSync(filePath);
-        deletedCount++;
+        deletedCount += 1;
         logger.info(`Deleted old log file: ${file}`);
       }
     });
@@ -132,7 +132,7 @@ const startLogReportScheduler = () => {
     return;
   }
 
-  const frequency = config.logReport.frequency || 'weekly';
+  let frequency = config.logReport.frequency || 'weekly';
   const recipients = config.logReport.recipients || [];
   const days = config.logReport.days || REPORT_DAYS[frequency];
 
@@ -226,8 +226,7 @@ const stopAllSchedulers = () => {
 /**
  * Get status of all scheduled tasks
  */
-const getSchedulerStatus = () => {
-  return {
+const getSchedulerStatus = () => ({
     enabled: config.logReport.enabled,
     frequency: config.logReport.frequency,
     recipients: config.logReport.recipients,
@@ -239,20 +238,7 @@ const getSchedulerStatus = () => {
       cronPattern: task.cronPattern,
       isRunning: true,
     })),
-  };
-};
-
-/**
- * List all available schedule patterns
- */
-const getAvailableSchedules = () => {
-  return Object.keys(SCHEDULE_PATTERNS).map((key) => ({
-    name: key,
-    pattern: SCHEDULE_PATTERNS[key],
-    days: REPORT_DAYS[key],
-    description: getScheduleDescription(key),
-  }));
-};
+  });
 
 /**
  * Get human-readable description of schedule
@@ -272,6 +258,16 @@ const getScheduleDescription = (frequency) => {
 
   return descriptions[frequency] || 'Unknown schedule';
 };
+
+/**
+ * List all available schedule patterns
+ */
+const getAvailableSchedules = () => Object.keys(SCHEDULE_PATTERNS).map((key) => ({
+    name: key,
+    pattern: SCHEDULE_PATTERNS[key],
+    days: REPORT_DAYS[key],
+    description: getScheduleDescription(key),
+  }));
 
 export {
   startLogReportScheduler,

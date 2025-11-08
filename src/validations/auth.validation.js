@@ -61,17 +61,6 @@ const deleteMe = {
   }),
 };
 
-const sendOTP = {
-  body: Joi.object().keys({
-    phoneNumber: Joi.string().required(),
-  }),
-}
-const verifyOTP = {
-  body: Joi.object().keys({
-    phoneNumber: Joi.string().required(),
-    otpCode: Joi.string().required(),
-  }),
-}
 export default {
   register,
   login,

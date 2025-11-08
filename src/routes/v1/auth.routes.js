@@ -1,12 +1,8 @@
 import express from 'express';
 import validate from '../../middlewares/validate.js';
-import authValidation from '../../validations/auth.validation.js';
-import authController from '../../controllers/auth.controller.js';
+import { authValidation } from '../../validations/index.js';
+import { authController } from '../../controllers/index.js';
 import auth from '../../middlewares/auth.js';
-import userFileUploadMiddleware from '../../middlewares/fileUpload.js';
-
-const UPLOADS_FOLDER_USERS = "./public/uploads/users";
-const uploadUsers = userFileUploadMiddleware(UPLOADS_FOLDER_USERS);
 
 const router = express.Router();
 

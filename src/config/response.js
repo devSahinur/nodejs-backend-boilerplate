@@ -1,20 +1,20 @@
-const response = (response = {}) => {
+const response = (res = {}) => {
   const responseObject = {
-    code: response.statusCode,
-    message: response.message,
+    code: res.statusCode,
+    message: res.message,
     data: {},
   };
 
-  if (response.type) {
-    responseObject.data.type = response.type;
+  if (res.type) {
+    responseObject.data.type = res.type;
   }
 
-  if (response.data) {
-    responseObject.data.attributes = response.data;
+  if (res.data) {
+    responseObject.data.attributes = res.data;
   }
 
-  if (response.token) {
-    responseObject.data.token = response.tokens;
+  if (res.token) {
+    responseObject.data.token = res.tokens;
   }
 
   return responseObject;

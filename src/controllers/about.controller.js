@@ -1,6 +1,4 @@
 import httpStatus from 'http-status';
-import pick from '../utils/pick.js';
-import ApiError from '../utils/ApiError.js';
 import catchAsync from '../utils/catchAsync.js';
 import response from '../config/response.js';
 import { aboutService } from '../services/index.js';

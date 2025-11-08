@@ -1,7 +1,5 @@
-import httpStatus from 'http-status';
-import { About } from '../models/index.js';
-import ApiError from '../utils/ApiError.js';
 import he from 'he';
+import { About } from '../models/index.js';
 
 
 const createAbout = async (aboutBody) => {
@@ -14,11 +12,11 @@ const createAbout = async (aboutBody) => {
      existingAbout.content = aboutBody.content; // Assign raw HTML content
      await existingAbout.save();
      return existingAbout;
- } else {
+ } 
      // If no entry exists, create a new one
      const newAbout = await About.create(aboutBody);
      return newAbout;
- }
+ 
 };
 
 

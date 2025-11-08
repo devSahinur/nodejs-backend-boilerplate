@@ -1,8 +1,8 @@
 import Stripe from 'stripe';
+import httpStatus from 'http-status';
 import config from '../../config/config.js';
 import logger from '../../config/logger.js';
 import ApiError from '../../utils/ApiError.js';
-import httpStatus from 'http-status';
 
 const stripe = new Stripe(config.stripe.secretKey);
 
@@ -87,29 +87,6 @@ const createRefund = async (paymentIntentId, amount) => {
 };
 
 /**
- * Handle Stripe webhook events
- * @param {Object} event - Stripe webhook event
- * @returns {Promise<void>}
- */
-const handleWebhookEvent = async (event) => {
-  logger.info(`Handling Stripe webhook event: ${event.type}`);
-
-  switch (event.type) {
-    case 'payment_intent.succeeded':
-      await handlePaymentSuccess(event.data.object);
-      break;
-    case 'payment_intent.payment_failed':
-      await handlePaymentFailure(event.data.object);
-      break;
-    case 'charge.refunded':
-      await handleRefund(event.data.object);
-      break;
-    default:
-      logger.warn(`Unhandled event type: ${event.type}`);
-  }
-};
-
-/**
  * Handle successful payment
  * @param {Object} paymentIntent - Payment intent object
  * @returns {Promise<void>}
@@ -152,6 +129,29 @@ const handleRefund = async (charge) => {
     // Add your custom logic here to handle refunds
   } catch (error) {
     logger.error('Error handling refund:', error);
+  }
+};
+
+/**
+ * Handle Stripe webhook events
+ * @param {Object} event - Stripe webhook event
+ * @returns {Promise<void>}
+ */
+const handleWebhookEvent = async (event) => {
+  logger.info(`Handling Stripe webhook event: ${event.type}`);
+
+  switch (event.type) {
+    case 'payment_intent.succeeded':
+      await handlePaymentSuccess(event.data.object);
+      break;
+    case 'payment_intent.payment_failed':
+      await handlePaymentFailure(event.data.object);
+      break;
+    case 'charge.refunded':
+      await handleRefund(event.data.object);
+      break;
+    default:
+      logger.warn(`Unhandled event type: ${event.type}`);
   }
 };
 

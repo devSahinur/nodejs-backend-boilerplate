@@ -9,13 +9,13 @@ export default function (UPLOADS_FOLDER) {
     filename: (req, file, cb) => {
       const fileExt = path.extname(file.originalname);
       const filename =
-        file.originalname
+        `${file.originalname
           .replace(fileExt, "")
           .toLowerCase()
           .split(" ")
-          .join("-") +
-        "-" +
-        Date.now();
+          .join("-") 
+        }-${ 
+        Date.now()}`;
 
       cb(null, filename + fileExt);
     },

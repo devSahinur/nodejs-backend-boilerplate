@@ -9,13 +9,13 @@ export default function (UPLOADS_FOLDER) {
     filename: (req, file, cb) => {
       const fileExt = path.extname(file.originalname);
       const filename =
-        file.originalname
+        `${file.originalname
           .replace(fileExt, "")
           .toLocaleLowerCase()
           .split(" ")
-          .join("-") +
-        "-" +
-        Date.now();
+          .join("-") 
+        }-${ 
+        Date.now()}`;
 
       cb(null, filename + fileExt);
     },
@@ -28,11 +28,11 @@ export default function (UPLOADS_FOLDER) {
     },
     fileFilter: (req, file, cb) => {
       if (
-        file.mimetype == "image/jpg" ||
-        file.mimetype == "image/png" ||
-        file.mimetype == "image/jpeg" ||
-        file.mimetype == "image/heic" ||
-        file.mimetype == "image/heif"
+        file.mimetype === "image/jpg" ||
+        file.mimetype === "image/png" ||
+        file.mimetype === "image/jpeg" ||
+        file.mimetype === "image/heic" ||
+        file.mimetype === "image/heif"
       ) {
         cb(null, true);
 

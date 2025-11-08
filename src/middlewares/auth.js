@@ -2,8 +2,6 @@ import passport from "passport";
 import httpStatus from "http-status";
 import ApiError from "../utils/ApiError.js";
 import { roleRights } from "../config/roles.js";
-import jwt from "jsonwebtoken";
-import { Activity } from "../models/index.js";
 
 const verifyCallback =
   (req, resolve, reject, requiredRights) => async (err, user, info) => {
@@ -13,19 +11,6 @@ const verifyCallback =
       );
     }
     req.user = user;
-
-
-    const { authorization } = req.headers;
-  
-    let token;
-    let activity;
-    let decodedData;
-    if (authorization && authorization.startsWith("Bearer")) {
-      token = authorization.split(" ")[1];
-      decodedData = jwt.decode(token);
-      activity = decodedData.activity;
-
-    }
 
     if (requiredRights.length) {
       const userRights = roleRights.get(user.role);
@@ -42,8 +27,7 @@ const verifyCallback =
 
 const auth =
   (...requiredRights) =>
-  async (req, res, next) => {
-    return new Promise((resolve, reject) => {
+  async (req, res, next) => new Promise((resolve, reject) => {
       passport.authenticate(
         "jwt",
         { session: false },
@@ -52,6 +36,5 @@ const auth =
     })
       .then(() => next())
       .catch((err) => next(err));
-  };
 
 export default auth;

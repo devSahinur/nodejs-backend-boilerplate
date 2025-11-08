@@ -8,7 +8,7 @@ if (config.env !== "test") {
   transport
     .verify()
     .then(() => logger.info("Connected to email server"))
-    .catch((err) =>
+    .catch((_err) =>
       logger.warn(
         "Unable to connect to email server. Make sure you have configured the SMTP options in .env"
       )
@@ -22,7 +22,6 @@ const sendEmail = async (to, subject, html) => {
 };
 
 const sendEmailVerification = async (to, otp) => {
-  console.log("sendEmailVerification", to, otp);
   const subject = "User verification code";
   const html = `
 
@@ -40,7 +39,6 @@ const sendEmailVerification = async (to, otp) => {
 };
 
 const sendResetPasswordEmail = async (to, otp) => {
-  console.log("Password Reset Email", to, otp);
   const subject = "Password Reset Email";
   const html = `
   <body style="background-color: #f3f4f6; padding: 1rem; font-family: Arial, sans-serif;">

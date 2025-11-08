@@ -83,10 +83,8 @@ const changePassword = async (reqUser, reqBody) => {
   return user;
 };
 
-const verifyEmail = async (reqBody, reqQuery) => {
+const verifyEmail = async (reqBody, _reqQuery) => {
   const { email, oneTimeCode } = reqBody;
-  console.log("reqBody", email);
-  console.log("reqQuery", oneTimeCode);
   const user = await userService.getUserByEmail(email);
   // console.log("user", user);
 
@@ -100,7 +98,7 @@ const verifyEmail = async (reqBody, reqQuery) => {
     throw new ApiError(httpStatus.NOT_FOUND, "User does not exist");
   } else if (user.oneTimeCode === null) {
     throw new ApiError(httpStatus.BAD_REQUEST, "OTP expired");
-  } else if (oneTimeCode != user.oneTimeCode) {
+  } else if (oneTimeCode !== user.oneTimeCode) {
     throw new ApiError(httpStatus.BAD_REQUEST, "Invalid OTP");
   } else if (user.isEmailVerified && !user.isResetPassword) {
     throw new ApiError(httpStatus.BAD_REQUEST, "Email already verified");
@@ -114,15 +112,13 @@ const verifyEmail = async (reqBody, reqQuery) => {
 };
 
 const verifyNumber = async (phoneNumber, otpCode, email) => {
-  console.log("reqBody", email);
-  console.log("reqQuery", otpCode);
   const user = await userService.getUserByEmail(email);
 
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, "User does not exist");
   } else if (user.phoneNumberOTP === null) {
     throw new ApiError(httpStatus.BAD_REQUEST, "OTP expired");
-  } else if (otpCode != user.phoneNumberOTP) {
+  } else if (otpCode !== user.phoneNumberOTP) {
     throw new ApiError(httpStatus.BAD_REQUEST, "Invalid OTP");
   } else if (user.isPhoneNumberVerified) {
     throw new ApiError(httpStatus.BAD_REQUEST, "Phone Number already verified");

@@ -1,7 +1,7 @@
 import httpStatus from 'http-status';
 import catchAsync from '../utils/catchAsync.js';
 import * as fcmService from '../services/notifications/fcm.service.js';
-import { addEmailJob, addNotificationJob } from '../queues/index.js';
+import { addEmailJob } from '../queues/index.js';
 
 const sendEmail = catchAsync(async (req, res) => {
   const { to, subject, text, html } = req.body;

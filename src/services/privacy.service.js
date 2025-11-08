@@ -1,7 +1,5 @@
-import httpStatus from 'http-status';
-import { Privacy } from '../models/index.js';
-import ApiError from '../utils/ApiError.js';
 import he from 'he';
+import { Privacy } from '../models/index.js';
 
 
 const createPrivacy = async (privacyBody) => {
@@ -15,11 +13,11 @@ const createPrivacy = async (privacyBody) => {
         existingPrivacy.set(privacyBody);
         await existingPrivacy.save();
         return existingPrivacy;
-    } else {
+    } 
         // If no entry exists, create a new one
         const newPrivacy = await Privacy.create(privacyBody);
         return newPrivacy;
-    }
+    
 };
 
 const queryPrivacy = async () => {

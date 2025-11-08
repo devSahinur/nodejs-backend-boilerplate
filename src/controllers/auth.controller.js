@@ -13,8 +13,7 @@ const register = catchAsync(async (req, res) => {
   const isUser = await userService.getUserByEmail(req.body.email);
 
   if (isUser && isUser.isEmailVerified === false) {
-    const user = await userService.isUpdateUser(isUser.id, req.body);
-    const tokens = await tokenService.generateAuthTokens(user);
+    await userService.isUpdateUser(isUser.id, req.body);
     res.status(httpStatus.CREATED).json(
       response({
         message: "Thank you for registering. Please verify your email",
@@ -26,8 +25,7 @@ const register = catchAsync(async (req, res) => {
   } else if (isUser && isUser.isDeleted === false) {
     throw new ApiError(httpStatus.BAD_REQUEST, "Email already taken");
   } else if (isUser && isUser.isDeleted === true) {
-    const user = await userService.isUpdateUser(isUser.id, req.body);
-    const tokens = await tokenService.generateAuthTokens(user);
+    await userService.isUpdateUser(isUser.id, req.body);
     res.status(httpStatus.CREATED).json(
       response({
         message: "Thank you for registering. Please verify your email",
@@ -37,8 +35,7 @@ const register = catchAsync(async (req, res) => {
       })
     );
   } else {
-    const user = await userService.createUser(req.body);
-    const tokens = await tokenService.generateAuthTokens(user);
+    await userService.createUser(req.body);
 
     res.status(httpStatus.CREATED).json(
       response({
@@ -66,18 +63,6 @@ const login = catchAsync(async (req, res) => {
   }
   const user = await authService.loginUserWithEmailAndPassword(email, password);
 
-  setTimeout(async () => {
-    try {
-      user.oneTimeCode = null;
-      user.isResetPassword = false;
-      await user.save();
-      console.log("oneTimeCode reset to null after 3 minute");
-    } catch (error) {
-      ApiError;
-      console.error("Error updating oneTimeCode:", error);
-    }
-  }, 180000); // 3 minute in milliseconds
-
   const tokens = await tokenService.generateAuthTokens(user);
   res.status(httpStatus.OK).json(
     response({
@@ -89,12 +74,12 @@ const login = catchAsync(async (req, res) => {
   );
 });
 
-const logout = catchAsync(async (req, res) => {
+const logout = catchAsync(async (_req, _res) => {
   // await authService.logout(req.body.refreshToken);
   // res.status(httpStatus.OK).send();
 });
 
-const refreshTokens = catchAsync(async (req, res) => {
+const refreshTokens = catchAsync(async (_req, _res) => {
   // const tokens = await authService.refreshAuth(req.body.refreshToken);
   // res.send({ ...tokens });
 });
@@ -122,7 +107,7 @@ const forgotPassword = catchAsync(async (req, res) => {
   user.isResetPassword = true;
   await user.save();
 
-  //console.log("oneTimeCode", user);
+  // console.log("oneTimeCode", user);
   await emailService.sendResetPasswordEmail(req.body.email, oneTimeCode);
   res.status(httpStatus.OK).json(
     response({
@@ -158,7 +143,7 @@ const changePassword = catchAsync(async (req, res) => {
   );
 });
 
-const sendVerificationEmail = catchAsync(async (req, res) => {
+const sendVerificationEmail = catchAsync(async (_req, _res) => {
   // const verifyEmailToken = await tokenService.generateVerifyEmailToken(req.user);
   // await emailService.sendVerificationEmail(req.user.email, verifyEmailToken);
   // res.status(httpStatus.OK).send();

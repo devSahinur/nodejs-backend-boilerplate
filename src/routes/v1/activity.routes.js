@@ -1,5 +1,4 @@
 import express from 'express';
-import validate from '../../middlewares/validate.js';
 import activityController from '../../controllers/activity.controller.js';
 import auth from '../../middlewares/auth.js';
 

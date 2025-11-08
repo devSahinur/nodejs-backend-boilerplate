@@ -1,11 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath } from 'url';
 import moment from 'moment';
 import logger from '../config/logger.js';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 /**
  * Read log file and return its content
@@ -51,7 +47,7 @@ const parseLogContent = (logContent) => {
       const level = parsed.level?.toLowerCase();
 
       if (level === 'error') {
-        stats.error++;
+        stats.error += 1;
         if (stats.errors.length < 10) {
           stats.errors.push({
             timestamp: parsed.timestamp,
@@ -60,7 +56,7 @@ const parseLogContent = (logContent) => {
           });
         }
       } else if (level === 'warn') {
-        stats.warn++;
+        stats.warn += 1;
         if (stats.warnings.length < 10) {
           stats.warnings.push({
             timestamp: parsed.timestamp,
@@ -68,29 +64,20 @@ const parseLogContent = (logContent) => {
           });
         }
       } else if (level === 'info') {
-        stats.info++;
+        stats.info += 1;
       } else if (level === 'http') {
-        stats.http++;
+        stats.http += 1;
       } else if (level === 'debug') {
-        stats.debug++;
-      }
-
-      // Keep recent logs
-      if (stats.recentLogs.length < 20) {
-        stats.recentLogs.push({
-          level,
-          timestamp: parsed.timestamp,
-          message: parsed.message,
-        });
+        stats.debug += 1;
       }
     } catch (e) {
       // If not JSON, treat as plain text
       if (line.includes('error') || line.includes('ERROR')) {
-        stats.error++;
+        stats.error += 1;
       } else if (line.includes('warn') || line.includes('WARN')) {
-        stats.warn++;
+        stats.warn += 1;
       } else {
-        stats.info++;
+        stats.info += 1;
       }
     }
   });
@@ -193,9 +180,12 @@ const generateLogSummary = async (days = 7) => {
       errorRate: logs.combined.total > 0
         ? ((logs.combined.error / logs.combined.total) * 100).toFixed(2)
         : 0,
-      healthStatus: logs.combined.error > 100 ? 'CRITICAL' :
-                    logs.combined.error > 50 ? 'WARNING' :
-                    logs.combined.error > 10 ? 'ATTENTION' : 'HEALTHY',
+      healthStatus: (() => {
+        if (logs.combined.error > 100) return 'CRITICAL';
+        if (logs.combined.error > 50) return 'WARNING';
+        if (logs.combined.error > 10) return 'ATTENTION';
+        return 'HEALTHY';
+      })(),
     },
   };
 };

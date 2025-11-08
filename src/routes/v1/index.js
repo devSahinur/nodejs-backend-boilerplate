@@ -1,5 +1,4 @@
 import express from 'express';
-import config from '../../config/config.js';
 import authRoute from './auth.routes.js';
 import userRoute from './user.routes.js';
 import paymentRoute from './payment.routes.js';

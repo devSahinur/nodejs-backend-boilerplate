@@ -1,7 +1,5 @@
-import httpStatus from 'http-status';
-import { Terms } from '../models/index.js';
-import ApiError from '../utils/ApiError.js';
 import he from 'he';
+import { Terms } from '../models/index.js';
 
 const createTerms = async (termsBody) => {
   termsBody.content = he.decode(termsBody.content);
@@ -12,11 +10,11 @@ const createTerms = async (termsBody) => {
     existingTerms.set(termsBody);
     await existingTerms.save();
     return existingTerms;
-  } else {
+  } 
     // If no entry exists, create a new one
     const newTerms = await Terms.create(termsBody);
     return newTerms;
-  }
+  
 };
 
 const queryTerms = async () => {

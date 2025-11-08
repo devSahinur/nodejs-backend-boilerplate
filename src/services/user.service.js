@@ -1,8 +1,7 @@
 import httpStatus from "http-status";
-import { User, Interest } from "../models/index.js";
+import { User } from "../models/index.js";
 import ApiError from "../utils/ApiError.js";
 import { sendEmailVerification } from "./email.service.js";
-import unlinkImages from "../common/unlinkImage.js";
 
 const createUser = async (userBody) => {
   if (await User.isEmailTaken(userBody.email)) {
@@ -22,7 +21,7 @@ const queryUsers = async (filter, options) => {
   const query = {};
 
   // Loop through each filter field and add conditions if they exist
-  for (const key of Object.keys(filter)) {
+  Object.keys(filter).forEach((key) => {
     if (
       (key === "fullName" || key === "email" || key === "username") &&
       filter[key] !== ""
@@ -31,7 +30,7 @@ const queryUsers = async (filter, options) => {
     } else if (filter[key] !== "") {
       query[key] = filter[key];
     }
-  }
+  });
 
   const users = await User.paginate(query, options);
 
@@ -40,13 +39,9 @@ const queryUsers = async (filter, options) => {
   return users;
 };
 
-const getUserById = async (id) => {
-  return User.findById(id);
-};
+const getUserById = async (id) => User.findById(id);
 
-const getUserByEmail = async (email) => {
-  return User.findOne({ email });
-};
+const getUserByEmail = async (email) => User.findOne({ email });
 
 const updateUserById = async (userId, updateBody, files) => {
   const user = await getUserById(userId);
@@ -163,11 +158,6 @@ const nidVerifySubmitList = async () => {
   return users;
 };
 
-const interestList = async () => {
-  const interest = await Interest.find({});
-  return interest;
-};
-
 export default {
   createUser,
   queryUsers,
@@ -180,7 +170,6 @@ export default {
   nidVerifyApproval,
   nidVerifyReject,
   nidVerifySubmitList,
-  interestList
 };
 
 export {
@@ -195,5 +184,4 @@ export {
   nidVerifyApproval,
   nidVerifyReject,
   nidVerifySubmitList,
-  interestList
 };

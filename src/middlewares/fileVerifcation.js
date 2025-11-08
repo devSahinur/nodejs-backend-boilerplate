@@ -1,4 +1,3 @@
-import upload from "./fileUpload.js";
 import logger from "../config/logger.js";
 import response from "../config/response.js";
 
@@ -13,9 +12,9 @@ const imageVerification = (req, res, next) => {
         message: "Images not found",
       })
     );
-  } else {
+  } 
     next();
-  }
+  
 };
 
 export default imageVerification;

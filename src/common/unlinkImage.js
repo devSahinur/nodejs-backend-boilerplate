@@ -9,9 +9,9 @@ function unlinkImage(imagePaths) {
   imagePaths.forEach((imagePath) => {
     fs.unlink(imagePath, (err) => {
       if (err) {
-        console.error(`Error deleting the file ${imagePath}:`, err);
+        // Handle error silently or with a logger if available
       } else {
-        console.log(`File ${imagePath} deleted successfully`);
+        // Log success silently or with a logger if available
       }
     });
   });
