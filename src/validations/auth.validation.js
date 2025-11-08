@@ -6,7 +6,7 @@ const register = {
     email: Joi.string().required().email(),
     password: Joi.string().required().custom(password),
     fullName: Joi.string().required(),
-    role: Joi.string().required().valid("client", "employee", "admin"),
+    role: Joi.string().required().valid('client', 'employee', 'admin'),
   }),
 };
 
@@ -73,14 +73,4 @@ export default {
   changePassword,
 };
 
-export {
-  register,
-  login,
-  logout,
-  refreshTokens,
-  forgotPassword,
-  resetPassword,
-  verifyEmail,
-  deleteMe,
-  changePassword,
-};
+export { register, login, logout, refreshTokens, forgotPassword, resetPassword, verifyEmail, deleteMe, changePassword };

@@ -42,7 +42,7 @@ const getUser = catchAsync(async (req, res) => {
  * Update user
  */
 const updateUser = catchAsync(async (req, res) => {
-  const {files} = req;
+  const { files } = req;
   const user = await userService.updateUserById(req.params.userId, req.body, files);
   res.send({
     message: 'User updated successfully',

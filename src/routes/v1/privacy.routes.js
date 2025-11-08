@@ -83,9 +83,6 @@ const router = express.Router();
  *       "404":
  *         $ref: '#/components/responses/NotFound'
  */
-router
-    .route('/')
-    .post(auth('admin'), privacyController.createPrivacy)
-    .get(privacyController.getPrivacy);
+router.route('/').post(auth('admin'), privacyController.createPrivacy).get(privacyController.getPrivacy);
 
 export default router;

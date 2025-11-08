@@ -10,11 +10,10 @@ const createTerms = async (termsBody) => {
     existingTerms.set(termsBody);
     await existingTerms.save();
     return existingTerms;
-  } 
-    // If no entry exists, create a new one
-    const newTerms = await Terms.create(termsBody);
-    return newTerms;
-  
+  }
+  // If no entry exists, create a new one
+  const newTerms = await Terms.create(termsBody);
+  return newTerms;
 };
 
 const queryTerms = async () => {

@@ -7,7 +7,8 @@ const swaggerDefinition = {
   info: {
     title: 'Node.js Backend Template API',
     version: '1.0.0',
-    description: 'Professional, universal, production-ready Node.js backend template with comprehensive API documentation',
+    description:
+      'Professional, universal, production-ready Node.js backend template with comprehensive API documentation',
     license: {
       name: 'MIT',
       url: 'https://opensource.org/licenses/MIT',
@@ -90,11 +91,15 @@ const swaggerSpec = swaggerJsdoc(options);
  * @param {object} app - Express app instance
  */
 const setupSwagger = (app) => {
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
-    explorer: true,
-    customCss: '.swagger-ui .topbar { display: none }',
-    customSiteTitle: 'API Documentation',
-  }));
+  app.use(
+    '/api-docs',
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerSpec, {
+      explorer: true,
+      customCss: '.swagger-ui .topbar { display: none }',
+      customSiteTitle: 'API Documentation',
+    })
+  );
 
   // Serve swagger spec as JSON
   app.get('/api-docs.json', (req, res) => {

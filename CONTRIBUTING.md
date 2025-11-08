@@ -44,17 +44,21 @@ By participating in this project, you agree to maintain a respectful and inclusi
 ### Installation
 
 1. **Install dependencies**:
+
    ```bash
    npm install
    ```
 
 2. **Set up environment variables**:
+
    ```bash
    cp .env.example .env
    ```
+
    Edit `.env` with your local configuration.
 
 3. **Start required services**:
+
    ```bash
    # MongoDB
    brew services start mongodb-community  # macOS
@@ -98,6 +102,7 @@ nodejs-backend-template/
 ### Creating a New Feature
 
 1. **Create a feature branch**:
+
    ```bash
    git checkout -b feature/your-feature-name
    ```
@@ -105,6 +110,7 @@ nodejs-backend-template/
 2. **Make your changes** following the coding standards
 
 3. **Test your changes**:
+
    ```bash
    npm test
    npm run lint
@@ -113,6 +119,7 @@ nodejs-backend-template/
 4. **Commit your changes** (see [Commit Guidelines](#commit-guidelines))
 
 5. **Push to your fork**:
+
    ```bash
    git push origin feature/your-feature-name
    ```
@@ -154,10 +161,7 @@ export default {
   getUser,
 };
 
-export {
-  createUser,
-  getUser,
-};
+export { createUser, getUser };
 
 // Good - Imports
 import userService from './services/user.service.js';
@@ -218,12 +222,14 @@ Added prerequisite version requirements and troubleshooting section.
 ### Before Submitting
 
 1. **Update your branch** with latest upstream changes:
+
    ```bash
    git fetch upstream
    git rebase upstream/main
    ```
 
 2. **Run all checks**:
+
    ```bash
    npm test
    npm run lint
@@ -246,6 +252,7 @@ Include in your PR description:
 ### PR Title
 
 Follow the same convention as commit messages:
+
 ```
 feat(auth): add OAuth2 authentication
 fix(validation): correct email regex pattern
@@ -274,16 +281,17 @@ npm test -- --coverage
 - Mock external dependencies
 
 Example:
+
 ```javascript
 describe('User Service', () => {
   describe('createUser', () => {
     it('should create a new user with valid data', async () => {
       // Arrange
       const userData = { email: 'test@example.com', password: 'Test123!' };
-      
+
       // Act
       const user = await userService.createUser(userData);
-      
+
       // Assert
       expect(user).toHaveProperty('id');
       expect(user.email).toBe(userData.email);
@@ -301,6 +309,7 @@ describe('User Service', () => {
 - Keep comments up-to-date with code changes
 
 Example:
+
 ```javascript
 /**
  * Create a new user account
@@ -324,6 +333,7 @@ const createUser = async (userData) => {
 ### README Updates
 
 Update README.md when adding:
+
 - New features
 - New environment variables
 - New dependencies

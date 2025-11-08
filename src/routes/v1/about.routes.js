@@ -72,9 +72,6 @@ const router = express.Router();
  *       "404":
  *         $ref: '#/components/responses/NotFound'
  */
-router
-    .route('/')
-    .post(auth('admin'), aboutController.createAbout)
-    .get(aboutController.getAbouts);
+router.route('/').post(auth('admin'), aboutController.createAbout).get(aboutController.getAbouts);
 
 export default router;

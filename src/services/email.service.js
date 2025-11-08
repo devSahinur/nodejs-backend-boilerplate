@@ -4,17 +4,14 @@ import logger from '../config/logger.js';
 
 const transport = nodemailer.createTransport(config.email.smtp);
 /* istanbul ignore next */
-if (config.env !== "test") {
+if (config.env !== 'test') {
   transport
     .verify()
-    .then(() => logger.info("Connected to email server"))
+    .then(() => logger.info('Connected to email server'))
     .catch((_err) =>
-      logger.warn(
-        "Unable to connect to email server. Make sure you have configured the SMTP options in .env"
-      )
+      logger.warn('Unable to connect to email server. Make sure you have configured the SMTP options in .env')
     );
 }
-
 
 const sendEmail = async (to, subject, html) => {
   const msg = { from: config.email.from, to, subject, html };
@@ -22,7 +19,7 @@ const sendEmail = async (to, subject, html) => {
 };
 
 const sendEmailVerification = async (to, otp) => {
-  const subject = "User verification code";
+  const subject = 'User verification code';
   const html = `
 
   <body style="background-color: #f3f4f6; padding: 1rem; font-family: Arial, sans-serif;">
@@ -39,7 +36,7 @@ const sendEmailVerification = async (to, otp) => {
 };
 
 const sendResetPasswordEmail = async (to, otp) => {
-  const subject = "Password Reset Email";
+  const subject = 'Password Reset Email';
   const html = `
   <body style="background-color: #f3f4f6; padding: 1rem; font-family: Arial, sans-serif;">
   <div style="max-width: 24rem; margin: 0 auto; background-color: #fff; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1;">
@@ -54,9 +51,8 @@ const sendResetPasswordEmail = async (to, otp) => {
   await sendEmail(to, subject, html);
 };
 
-
 const sendVerificationEmail = async (to, token) => {
-  const subject = "Email Verification";
+  const subject = 'Email Verification';
   // replace this url with the link to the email verification page of your front-end app
   const verificationEmailUrl = `http://link-to-app/verify-email?token=${token}`;
   const text = `Dear user,
@@ -73,10 +69,4 @@ export default {
   sendEmailVerification,
 };
 
-export {
-  transport,
-  sendEmail,
-  sendResetPasswordEmail,
-  sendVerificationEmail,
-  sendEmailVerification,
-};
+export { transport, sendEmail, sendResetPasswordEmail, sendVerificationEmail, sendEmailVerification };

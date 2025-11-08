@@ -5,7 +5,7 @@ const notificationSchema = new mongoose.Schema(
   {
     receiverId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: false,
     },
     message: { type: String, required: false },
@@ -13,13 +13,13 @@ const notificationSchema = new mongoose.Schema(
     linkId: { type: String, required: false },
     role: {
       type: String,
-      enum: ["admin", "client", "employee", "unknown"],
-      default: "unknown",
+      enum: ['admin', 'client', 'employee', 'unknown'],
+      default: 'unknown',
     },
     type: {
       type: String,
-      enum: ["task", "payment", "unknown"],
-      default: "unknown",
+      enum: ['task', 'payment', 'unknown'],
+      default: 'unknown',
     },
     viewStatus: { type: Boolean, enum: [true, false], default: false },
   },

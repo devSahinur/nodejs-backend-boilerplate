@@ -6,7 +6,7 @@ const createUser = {
     email: Joi.string().required().email(),
     password: Joi.string().required().custom(password),
     name: Joi.string().required(),
-    role: Joi.string().required().valid("user", "admin"),
+    role: Joi.string().required().valid('user', 'admin'),
   }),
 };
 
@@ -27,7 +27,6 @@ const getUser = {
 };
 
 const updateUser = {
-  
   // params: Joi.object().keys({
   //   userId: Joi.required().custom(objectId),
   // }),
@@ -41,7 +40,7 @@ const updateUser = {
   //     name: Joi.string(),
   //     phoneNumber: Joi.string(),
   //   })
-    // .min(1),
+  // .min(1),
 };
 
 const deleteUser = {
@@ -50,10 +49,7 @@ const deleteUser = {
   }),
 };
 
-
-const getHome = {
- 
-};
+const getHome = {};
 
 export default {
   getHome,
@@ -64,11 +60,4 @@ export default {
   deleteUser,
 };
 
-export {
-  getHome,
-  createUser,
-  getUsers,
-  getUser,
-  updateUser,
-  deleteUser,
-};
+export { getHome, createUser, getUsers, getUser, updateUser, deleteUser };

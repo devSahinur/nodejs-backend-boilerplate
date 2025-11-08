@@ -86,7 +86,8 @@ const processWithMetrics = (queue, processor) => {
  * @param {Object} emailData - Email data
  * @returns {Promise<Object>}
  */
-const addEmailJob = async (emailData) => emailQueue.add(emailData, {
+const addEmailJob = async (emailData) =>
+  emailQueue.add(emailData, {
     priority: emailData.priority || 5,
   });
 
@@ -95,7 +96,8 @@ const addEmailJob = async (emailData) => emailQueue.add(emailData, {
  * @param {Object} notificationData - Notification data
  * @returns {Promise<Object>}
  */
-const addNotificationJob = async (notificationData) => notificationQueue.add(notificationData, {
+const addNotificationJob = async (notificationData) =>
+  notificationQueue.add(notificationData, {
     priority: notificationData.priority || 5,
   });
 
@@ -108,11 +110,4 @@ const closeQueues = async () => {
   logger.info('All queues closed');
 };
 
-export {
-  emailQueue,
-  notificationQueue,
-  processWithMetrics,
-  addEmailJob,
-  addNotificationJob,
-  closeQueues,
-};
+export { emailQueue, notificationQueue, processWithMetrics, addEmailJob, addNotificationJob, closeQueues };

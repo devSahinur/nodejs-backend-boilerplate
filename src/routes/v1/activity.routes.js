@@ -68,7 +68,7 @@ const router = express.Router();
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  */
-router.route("/").get(auth("common"), activityController.getActivitiesById);
+router.route('/').get(auth('common'), activityController.getActivitiesById);
 
 /**
  * @swagger
@@ -103,6 +103,6 @@ router.route("/").get(auth("common"), activityController.getActivitiesById);
  *       "404":
  *         $ref: '#/components/responses/NotFound'
  */
-router.route("/:id").delete(auth("common"), activityController.deleteActivityById);
+router.route('/:id').delete(auth('common'), activityController.deleteActivityById);
 
 export default router;

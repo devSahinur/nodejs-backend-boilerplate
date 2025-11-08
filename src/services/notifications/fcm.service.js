@@ -87,9 +87,7 @@ const sendMulticastNotification = async (tokens, { title, body, data = {} }) => 
     };
 
     const response = await admin.messaging().sendMulticast(message);
-    logger.info(
-      `Multicast notification sent: ${response.successCount} successful, ${response.failureCount} failed`
-    );
+    logger.info(`Multicast notification sent: ${response.successCount} successful, ${response.failureCount} failed`);
     return response;
   } catch (error) {
     logger.error('Failed to send multicast notification:', error);

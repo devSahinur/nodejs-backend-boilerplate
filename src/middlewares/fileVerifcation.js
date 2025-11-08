@@ -1,5 +1,5 @@
-import logger from "../config/logger.js";
-import response from "../config/response.js";
+import logger from '../config/logger.js';
+import response from '../config/response.js';
 
 const imageVerification = (req, res, next) => {
   const files = req.files || [];
@@ -8,13 +8,12 @@ const imageVerification = (req, res, next) => {
     logger.error();
     return res.status(403).json(
       response({
-        code: "403",
-        message: "Images not found",
+        code: '403',
+        message: 'Images not found',
       })
     );
-  } 
-    next();
-  
+  }
+  next();
 };
 
 export default imageVerification;

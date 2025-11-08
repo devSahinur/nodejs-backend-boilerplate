@@ -1,7 +1,7 @@
-import fs from "fs";
+import fs from 'fs';
 
 function unlinkImage(imagePaths) {
-  if (typeof imagePaths === "string") {
+  if (typeof imagePaths === 'string') {
     // If it's a single image path, convert it to an array
     imagePaths = [imagePaths];
   }

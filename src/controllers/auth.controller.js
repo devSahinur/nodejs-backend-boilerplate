@@ -2,12 +2,7 @@ import httpStatus from 'http-status';
 import catchAsync from '../utils/catchAsync.js';
 import ApiError from '../utils/ApiError.js';
 import response from '../config/response.js';
-import {
-  authService,
-  userService,
-  tokenService,
-  emailService,
-} from '../services/index.js';
+import { authService, userService, tokenService, emailService } from '../services/index.js';
 
 const register = catchAsync(async (req, res) => {
   const isUser = await userService.getUserByEmail(req.body.email);
@@ -16,20 +11,20 @@ const register = catchAsync(async (req, res) => {
     await userService.isUpdateUser(isUser.id, req.body);
     res.status(httpStatus.CREATED).json(
       response({
-        message: "Thank you for registering. Please verify your email",
-        status: "OK",
+        message: 'Thank you for registering. Please verify your email',
+        status: 'OK',
         statusCode: httpStatus.CREATED,
         data: {},
       })
     );
   } else if (isUser && isUser.isDeleted === false) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "Email already taken");
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
   } else if (isUser && isUser.isDeleted === true) {
     await userService.isUpdateUser(isUser.id, req.body);
     res.status(httpStatus.CREATED).json(
       response({
-        message: "Thank you for registering. Please verify your email",
-        status: "OK",
+        message: 'Thank you for registering. Please verify your email',
+        status: 'OK',
         statusCode: httpStatus.CREATED,
         data: {},
       })
@@ -39,8 +34,8 @@ const register = catchAsync(async (req, res) => {
 
     res.status(httpStatus.CREATED).json(
       response({
-        message: "Thank you for registering. Please verify your email",
-        status: "OK",
+        message: 'Thank you for registering. Please verify your email',
+        status: 'OK',
         statusCode: httpStatus.CREATED,
         data: {},
       })
@@ -53,21 +48,21 @@ const login = catchAsync(async (req, res) => {
   const isUser = await userService.getUserByEmail(email);
   // here we check if the user is in the database or not
   if (isUser?.isDeleted === true) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "This Account is Deleted");
+    throw new ApiError(httpStatus.BAD_REQUEST, 'This Account is Deleted');
   }
   if (isUser?.isEmailVerified === false) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "Email not verified");
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Email not verified');
   }
   if (!isUser) {
-    throw new ApiError(httpStatus.NOT_FOUND, "No users found with this email");
+    throw new ApiError(httpStatus.NOT_FOUND, 'No users found with this email');
   }
   const user = await authService.loginUserWithEmailAndPassword(email, password);
 
   const tokens = await tokenService.generateAuthTokens(user);
   res.status(httpStatus.OK).json(
     response({
-      message: "Login Successful",
-      status: "OK",
+      message: 'Login Successful',
+      status: 'OK',
       statusCode: httpStatus.OK,
       data: { user, tokens },
     })
@@ -87,10 +82,7 @@ const refreshTokens = catchAsync(async (_req, _res) => {
 const forgotPassword = catchAsync(async (req, res) => {
   const user = await userService.getUserByEmail(req.body.email);
   if (!user) {
-    throw new ApiError(
-      httpStatus.BAD_REQUEST,
-      "No users found with this email"
-    );
+    throw new ApiError(httpStatus.BAD_REQUEST, 'No users found with this email');
   }
   // if(user.oneTimeCode === 'verified'){
   //   throw new ApiError(
@@ -99,8 +91,7 @@ const forgotPassword = catchAsync(async (req, res) => {
   //   );
   // }
   // Generate OTC (One-Time Code)
-  const oneTimeCode =
-    Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
+  const oneTimeCode = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
 
   // Store the OTC and its expiration time in the database
   user.oneTimeCode = oneTimeCode;
@@ -111,8 +102,8 @@ const forgotPassword = catchAsync(async (req, res) => {
   await emailService.sendResetPasswordEmail(req.body.email, oneTimeCode);
   res.status(httpStatus.OK).json(
     response({
-      message: "Email Sent",
-      status: "OK",
+      message: 'Email Sent',
+      status: 'OK',
       statusCode: httpStatus.OK,
       data: {},
     })
@@ -123,8 +114,8 @@ const resetPassword = catchAsync(async (req, res) => {
   await authService.resetPassword(req.body.password, req.body.email);
   res.status(httpStatus.OK).json(
     response({
-      message: "Password Reset Successful",
-      status: "OK",
+      message: 'Password Reset Successful',
+      status: 'OK',
       statusCode: httpStatus.OK,
       data: {},
     })
@@ -135,8 +126,8 @@ const changePassword = catchAsync(async (req, res) => {
   await authService.changePassword(req.user, req.body);
   res.status(httpStatus.OK).json(
     response({
-      message: "Password Change Successful",
-      status: "OK",
+      message: 'Password Change Successful',
+      status: 'OK',
       statusCode: httpStatus.OK,
       data: {},
     })
@@ -156,8 +147,8 @@ const verifyEmail = catchAsync(async (req, res) => {
 
   res.status(httpStatus.OK).json(
     response({
-      message: "Email Verified",
-      status: "OK",
+      message: 'Email Verified',
+      status: 'OK',
       statusCode: httpStatus.OK,
       data: { user, tokens },
     })
@@ -169,8 +160,8 @@ const deleteMe = catchAsync(async (req, res) => {
   const user = await authService.deleteMe(req.body.password, req.user);
   res.status(httpStatus.OK).json(
     response({
-      message: "Account Deleted",
-      status: "OK",
+      message: 'Account Deleted',
+      status: 'OK',
       statusCode: httpStatus.OK,
       data: { user },
     })

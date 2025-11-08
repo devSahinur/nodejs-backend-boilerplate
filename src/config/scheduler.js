@@ -227,18 +227,18 @@ const stopAllSchedulers = () => {
  * Get status of all scheduled tasks
  */
 const getSchedulerStatus = () => ({
-    enabled: config.logReport.enabled,
-    frequency: config.logReport.frequency,
-    recipients: config.logReport.recipients,
-    days: config.logReport.days,
-    timezone: config.logReport.timezone || 'UTC',
-    activeTasks: scheduledTasks.map((task) => ({
-      name: task.name,
-      frequency: task.frequency,
-      cronPattern: task.cronPattern,
-      isRunning: true,
-    })),
-  });
+  enabled: config.logReport.enabled,
+  frequency: config.logReport.frequency,
+  recipients: config.logReport.recipients,
+  days: config.logReport.days,
+  timezone: config.logReport.timezone || 'UTC',
+  activeTasks: scheduledTasks.map((task) => ({
+    name: task.name,
+    frequency: task.frequency,
+    cronPattern: task.cronPattern,
+    isRunning: true,
+  })),
+});
 
 /**
  * Get human-readable description of schedule
@@ -262,7 +262,8 @@ const getScheduleDescription = (frequency) => {
 /**
  * List all available schedule patterns
  */
-const getAvailableSchedules = () => Object.keys(SCHEDULE_PATTERNS).map((key) => ({
+const getAvailableSchedules = () =>
+  Object.keys(SCHEDULE_PATTERNS).map((key) => ({
     name: key,
     pattern: SCHEDULE_PATTERNS[key],
     days: REPORT_DAYS[key],

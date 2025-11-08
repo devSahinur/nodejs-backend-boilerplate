@@ -79,7 +79,6 @@ try {
 
   console.log('\n' + '='.repeat(60));
   console.log('✅ Test completed successfully!\n');
-
 } catch (error) {
   console.error('\n❌ Error during test:', error.message);
   console.error(error.stack);

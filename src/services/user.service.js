@@ -1,17 +1,16 @@
-import httpStatus from "http-status";
-import { User } from "../models/index.js";
-import ApiError from "../utils/ApiError.js";
-import { sendEmailVerification } from "./email.service.js";
+import httpStatus from 'http-status';
+import { User } from '../models/index.js';
+import ApiError from '../utils/ApiError.js';
+import { sendEmailVerification } from './email.service.js';
 
 const createUser = async (userBody) => {
   if (await User.isEmailTaken(userBody.email)) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "Email already taken");
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
   }
 
-  const oneTimeCode =
-    Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
+  const oneTimeCode = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
 
-  if (userBody.role === "client" || userBody.role === "employee") {
+  if (userBody.role === 'client' || userBody.role === 'employee') {
     sendEmailVerification(userBody.email, oneTimeCode);
   }
   return User.create({ ...userBody, oneTimeCode });
@@ -22,12 +21,9 @@ const queryUsers = async (filter, options) => {
 
   // Loop through each filter field and add conditions if they exist
   Object.keys(filter).forEach((key) => {
-    if (
-      (key === "fullName" || key === "email" || key === "username") &&
-      filter[key] !== ""
-    ) {
-      query[key] = { $regex: filter[key], $options: "i" }; // Case-insensitive regex search for name
-    } else if (filter[key] !== "") {
+    if ((key === 'fullName' || key === 'email' || key === 'username') && filter[key] !== '') {
+      query[key] = { $regex: filter[key], $options: 'i' }; // Case-insensitive regex search for name
+    } else if (filter[key] !== '') {
       query[key] = filter[key];
     }
   });
@@ -47,11 +43,11 @@ const updateUserById = async (userId, updateBody, files) => {
   const user = await getUserById(userId);
 
   if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
 
   if (updateBody.email && (await User.isEmailTaken(updateBody.email, userId))) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "Email already taken");
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
   }
 
   if (files && files.length > 0) {
@@ -68,7 +64,7 @@ const updateUserById = async (userId, updateBody, files) => {
 const deleteUserById = async (userId) => {
   const user = await getUserById(userId);
   if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
   await user.remove();
   return user;
@@ -77,13 +73,12 @@ const deleteUserById = async (userId) => {
 const isUpdateUser = async (userId, updateBody) => {
   const user = await getUserById(userId);
   if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
 
-  const oneTimeCode =
-    Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
+  const oneTimeCode = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
 
-  if (updateBody.role === "client" || updateBody.role === "employee") {
+  if (updateBody.role === 'client' || updateBody.role === 'employee') {
     sendEmailVerification(updateBody.email, oneTimeCode);
   }
 
@@ -102,16 +97,16 @@ const isUpdateUser = async (userId, updateBody) => {
 const verifyNid = async (id, nidNumber) => {
   const user = await getUserById(id);
   if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
-  if (user.nidStatus === "approved") {
-    throw new ApiError(httpStatus.BAD_REQUEST, "NID already verified");
+  if (user.nidStatus === 'approved') {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'NID already verified');
   }
-  if (user.nidStatus === "pending") {
-    throw new ApiError(httpStatus.BAD_REQUEST, "Waiting for admin approval");
+  if (user.nidStatus === 'pending') {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Waiting for admin approval');
   }
   user.nidNumber = nidNumber;
-  user.nidStatus= 'pending'
+  user.nidStatus = 'pending';
   await user.save();
   return user;
 };
@@ -119,19 +114,16 @@ const verifyNid = async (id, nidNumber) => {
 const nidVerifyApproval = async (id) => {
   const user = await getUserById(id);
   if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
-  if (user.nidStatus === "approved") {
-    throw new ApiError(httpStatus.BAD_REQUEST, "NID already verified");
+  if (user.nidStatus === 'approved') {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'NID already verified');
   }
-  if (user.nidStatus === "unverified" || user.nidStatus === "cancelled") {
-    throw new ApiError(
-      httpStatus.BAD_REQUEST,
-      "User not submitted Nid for approval"
-    );
+  if (user.nidStatus === 'unverified' || user.nidStatus === 'cancelled') {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'User not submitted Nid for approval');
   }
-  if (user.nidStatus === "pending") {
-    user.nidStatus = "approved";
+  if (user.nidStatus === 'pending') {
+    user.nidStatus = 'approved';
   }
   await user.save();
   return user;
@@ -140,21 +132,18 @@ const nidVerifyApproval = async (id) => {
 const nidVerifyReject = async (id) => {
   const user = await getUserById(id);
   if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
-  if (user.nidStatus !== "cancelled") {
-    throw new ApiError(
-      httpStatus.BAD_REQUEST,
-      "NID verification already cancelled for this user"
-    );
+  if (user.nidStatus !== 'cancelled') {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'NID verification already cancelled for this user');
   }
-  user.nidStatus = "cancelled"; // Assuming "cancelled" is the status when NID verification is cancelled
+  user.nidStatus = 'cancelled'; // Assuming "cancelled" is the status when NID verification is cancelled
   await user.save();
   return user;
 };
 
 const nidVerifySubmitList = async () => {
-  const users = await User.find({ nidStatus: { $eq: "pending" } });
+  const users = await User.find({ nidStatus: { $eq: 'pending' } });
   return users;
 };
 

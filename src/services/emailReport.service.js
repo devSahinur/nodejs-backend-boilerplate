@@ -212,31 +212,49 @@ const generateEmailTemplate = (data) => {
       </div>
 
       <!-- Recent Errors -->
-      ${combined.errors && combined.errors.length > 0 ? `
+      ${
+        combined.errors && combined.errors.length > 0
+          ? `
       <div class="section">
         <div class="section-title">🚨 Recent Errors (Top ${Math.min(10, combined.errors.length)})</div>
-        ${combined.errors.slice(0, 10).map((error) => `
+        ${combined.errors
+          .slice(0, 10)
+          .map(
+            (error) => `
         <div class="log-entry">
           <div class="log-timestamp">${moment(error.timestamp).format('YYYY-MM-DD HH:mm:ss')}</div>
           <div class="log-message">${error.message || 'No message'}</div>
           ${error.stack ? `<div style="margin-top: 5px; font-size: 11px; color: #991b1b; font-family: monospace;">${error.stack.substring(0, 200)}...</div>` : ''}
         </div>
-        `).join('')}
+        `
+          )
+          .join('')}
       </div>
-      ` : '<div class="section"><div class="no-data">✅ No errors in this period</div></div>'}
+      `
+          : '<div class="section"><div class="no-data">✅ No errors in this period</div></div>'
+      }
 
       <!-- Recent Warnings -->
-      ${combined.warnings && combined.warnings.length > 0 ? `
+      ${
+        combined.warnings && combined.warnings.length > 0
+          ? `
       <div class="section">
         <div class="section-title">⚠️ Recent Warnings (Top ${Math.min(10, combined.warnings.length)})</div>
-        ${combined.warnings.slice(0, 10).map((warning) => `
+        ${combined.warnings
+          .slice(0, 10)
+          .map(
+            (warning) => `
         <div class="log-entry warning">
           <div class="log-timestamp">${moment(warning.timestamp).format('YYYY-MM-DD HH:mm:ss')}</div>
           <div class="log-message">${warning.message || 'No message'}</div>
         </div>
-        `).join('')}
+        `
+          )
+          .join('')}
       </div>
-      ` : ''}
+      `
+          : ''
+      }
 
       <!-- System Metrics -->
       <div class="section">
@@ -343,9 +361,7 @@ const sendLogReport = async (recipient, days = 7) => {
  * @returns {Promise<void>}
  */
 const sendBulkLogReports = async (recipients, days = 7) => {
-  const results = await Promise.allSettled(
-    recipients.map((recipient) => sendLogReport(recipient, days))
-  );
+  const results = await Promise.allSettled(recipients.map((recipient) => sendLogReport(recipient, days)));
 
   const successful = results.filter((r) => r.status === 'fulfilled').length;
   const failed = results.filter((r) => r.status === 'rejected').length;

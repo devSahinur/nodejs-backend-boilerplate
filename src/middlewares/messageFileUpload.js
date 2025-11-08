@@ -1,5 +1,5 @@
-import multer from "multer";
-import path from "path";
+import multer from 'multer';
+import path from 'path';
 
 export default function (UPLOADS_FOLDER) {
   const storage = multer.diskStorage({
@@ -8,14 +8,7 @@ export default function (UPLOADS_FOLDER) {
     },
     filename: (req, file, cb) => {
       const fileExt = path.extname(file.originalname);
-      const filename =
-        `${file.originalname
-          .replace(fileExt, "")
-          .toLowerCase()
-          .split(" ")
-          .join("-") 
-        }-${ 
-        Date.now()}`;
+      const filename = `${file.originalname.replace(fileExt, '').toLowerCase().split(' ').join('-')}-${Date.now()}`;
 
       cb(null, filename + fileExt);
     },
@@ -27,7 +20,7 @@ export default function (UPLOADS_FOLDER) {
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     'image',
     'audio',
-    'video'
+    'video',
   ];
 
   const upload = multer({
@@ -41,7 +34,7 @@ export default function (UPLOADS_FOLDER) {
       if (allowedTypes.includes(file.mimetype) || allowedTypes.includes(fileType)) {
         cb(null, true);
       } else {
-        cb(new Error("Invalid file type"));
+        cb(new Error('Invalid file type'));
       }
     },
   });

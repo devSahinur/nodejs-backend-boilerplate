@@ -177,9 +177,7 @@ const generateLogSummary = async (days = 7) => {
       totalLogs: logs.combined.total,
       errorCount: logs.combined.error,
       warningCount: logs.combined.warn,
-      errorRate: logs.combined.total > 0
-        ? ((logs.combined.error / logs.combined.total) * 100).toFixed(2)
-        : 0,
+      errorRate: logs.combined.total > 0 ? ((logs.combined.error / logs.combined.total) * 100).toFixed(2) : 0,
       healthStatus: (() => {
         if (logs.combined.error > 100) return 'CRITICAL';
         if (logs.combined.error > 50) return 'WARNING';
@@ -190,9 +188,4 @@ const generateLogSummary = async (days = 7) => {
   };
 };
 
-export {
-  aggregateLogs,
-  generateLogSummary,
-  getSystemMetrics,
-  parseLogContent,
-};
+export { aggregateLogs, generateLogSummary, getSystemMetrics, parseLogContent };

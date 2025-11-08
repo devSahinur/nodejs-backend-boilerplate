@@ -7,8 +7,7 @@ import { Token } from '../models/index.js';
 import ApiError from '../utils/ApiError.js';
 import { tokenTypes } from '../config/tokens.js';
 
-
-const generateToken = (activityId,userId, expires, type, secret = config.jwt.secret) => {
+const generateToken = (activityId, userId, expires, type, secret = config.jwt.secret) => {
   const payload = {
     sub: userId,
     iat: moment().unix(),
@@ -21,8 +20,6 @@ const generateToken = (activityId,userId, expires, type, secret = config.jwt.sec
   return jwt.sign(payload, secret);
 };
 
-
-
 const saveToken = async (token, userId, expires, type, blacklisted = false) => {
   const tokenDoc = await Token.create({
     token,
@@ -34,7 +31,6 @@ const saveToken = async (token, userId, expires, type, blacklisted = false) => {
   return tokenDoc;
 };
 
-
 const verifyToken = async (token, type) => {
   const payload = jwt.verify(token, config.jwt.secret);
   const tokenDoc = await Token.findOne({ token, type, user: payload.sub, blacklisted: false });
@@ -44,10 +40,9 @@ const verifyToken = async (token, type) => {
   return tokenDoc;
 };
 
-
-const generateAuthTokens = async (user,activityId) => {
+const generateAuthTokens = async (user, activityId) => {
   const accessTokenExpires = moment().add(config.jwt.accessExpirationMinutes, 'minutes');
-  const accessToken = generateToken(activityId,user.id, accessTokenExpires, tokenTypes.ACCESS);
+  const accessToken = generateToken(activityId, user.id, accessTokenExpires, tokenTypes.ACCESS);
   // await saveToken(refreshToken, user.id, refreshTokenExpires, tokenTypes.REFRESH);
 
   return {
@@ -61,7 +56,6 @@ const generateAuthTokens = async (user,activityId) => {
     // },
   };
 };
-
 
 const generateResetPasswordToken = async (email) => {
   const user = await userService.getUserByEmail(email);

@@ -1,20 +1,18 @@
-import httpStatus from "http-status";
-import * as tokenService from "./token.service.js";
-import * as userService from "./user.service.js";
-import Token from "../models/token.model.js";
-import ApiError from "../utils/ApiError.js";
-import { tokenTypes } from "../config/tokens.js";
-
+import httpStatus from 'http-status';
+import * as tokenService from './token.service.js';
+import * as userService from './user.service.js';
+import Token from '../models/token.model.js';
+import ApiError from '../utils/ApiError.js';
+import { tokenTypes } from '../config/tokens.js';
 
 const loginUserWithEmailAndPassword = async (email, password) => {
   // console.log("email", email);
   const user = await userService?.getUserByEmail(email);
   if (!user || !(await user.isPasswordMatch(password))) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, "Incorrect email or password");
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Incorrect email or password');
   }
   return user;
 };
-
 
 const logout = async (refreshToken) => {
   const refreshTokenDoc = await Token.findOne({
@@ -23,18 +21,14 @@ const logout = async (refreshToken) => {
     blacklisted: false,
   });
   if (!refreshTokenDoc) {
-    throw new ApiError(httpStatus.NOT_FOUND, "Not found");
+    throw new ApiError(httpStatus.NOT_FOUND, 'Not found');
   }
   await refreshTokenDoc.remove();
 };
 
-
 const refreshAuth = async (refreshToken) => {
   try {
-    const refreshTokenDoc = await tokenService.verifyToken(
-      refreshToken,
-      tokenTypes.REFRESH
-    );
+    const refreshTokenDoc = await tokenService.verifyToken(refreshToken, tokenTypes.REFRESH);
     const user = await userService.getUserById(refreshTokenDoc.user);
     if (!user) {
       throw new Error();
@@ -42,21 +36,17 @@ const refreshAuth = async (refreshToken) => {
     await refreshTokenDoc.remove();
     return tokenService.generateAuthTokens(user);
   } catch (error) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, "Please authenticate");
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Please authenticate');
   }
 };
-
 
 const resetPassword = async (newPassword, email) => {
   const user = await userService.getUserByEmail(email);
   if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
   if (await user.isPasswordMatch(newPassword)) {
-    throw new ApiError(
-      httpStatus.BAD_REQUEST,
-      "New password cannot be the same as old password"
-    );
+    throw new ApiError(httpStatus.BAD_REQUEST, 'New password cannot be the same as old password');
   }
   await userService.updateUserById(user.id, { password: newPassword });
 
@@ -67,16 +57,13 @@ const changePassword = async (reqUser, reqBody) => {
   const { oldPassword, newPassword } = reqBody;
   const user = await userService.getUserByEmail(reqUser.email);
   if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
   if (!(await user.isPasswordMatch(oldPassword))) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "Incorrect password");
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Incorrect password');
   }
   if (await user.isPasswordMatch(newPassword)) {
-    throw new ApiError(
-      httpStatus.BAD_REQUEST,
-      "New password cannot be the same as old password"
-    );
+    throw new ApiError(httpStatus.BAD_REQUEST, 'New password cannot be the same as old password');
   }
   user.password = newPassword;
   await user.save();
@@ -95,13 +82,13 @@ const verifyEmail = async (reqBody, _reqQuery) => {
   //   );
   // }
   if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, "User does not exist");
+    throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist');
   } else if (user.oneTimeCode === null) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "OTP expired");
+    throw new ApiError(httpStatus.BAD_REQUEST, 'OTP expired');
   } else if (oneTimeCode !== user.oneTimeCode) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "Invalid OTP");
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid OTP');
   } else if (user.isEmailVerified && !user.isResetPassword) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "Email already verified");
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Email already verified');
   } else {
     user.isEmailVerified = true;
     user.oneTimeCode = null;
@@ -115,28 +102,28 @@ const verifyNumber = async (phoneNumber, otpCode, email) => {
   const user = await userService.getUserByEmail(email);
 
   if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, "User does not exist");
+    throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist');
   } else if (user.phoneNumberOTP === null) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "OTP expired");
+    throw new ApiError(httpStatus.BAD_REQUEST, 'OTP expired');
   } else if (otpCode !== user.phoneNumberOTP) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "Invalid OTP");
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid OTP');
   } else if (user.isPhoneNumberVerified) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "Phone Number already verified");
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Phone Number already verified');
   } else {
     user.isPhoneNumberVerified = true;
     user.phoneNumberOTP = null;
     await user.save();
-    return  user;
+    return user;
   }
 };
 
 const deleteMe = async (password, reqUser) => {
   const user = await userService.getUserByEmail(reqUser.email);
   if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
   if (!(await user.isPasswordMatch(password))) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "Incorrect password");
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Incorrect password');
   }
   user.isDeleted = true;
   await user.save();

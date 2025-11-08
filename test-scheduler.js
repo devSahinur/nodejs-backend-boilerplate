@@ -23,7 +23,7 @@ console.log('='.repeat(60));
 console.log('\n1️⃣  Validating Cron Patterns...');
 let allValid = true;
 
-Object.keys(SCHEDULE_PATTERNS).forEach(key => {
+Object.keys(SCHEDULE_PATTERNS).forEach((key) => {
   const pattern = SCHEDULE_PATTERNS[key];
   const isValid = cron.validate(pattern);
   console.log(`  ${isValid ? '✓' : '✗'} ${key}: ${pattern} - ${isValid ? 'VALID' : 'INVALID'}`);
@@ -41,7 +41,7 @@ if (allValid) {
 console.log('\n2️⃣  Testing Schedule Descriptions...');
 const schedules = getAvailableSchedules();
 console.log(`  Found ${schedules.length} available schedules:`);
-schedules.forEach(schedule => {
+schedules.forEach((schedule) => {
   console.log(`  ✓ ${schedule.name}: ${schedule.description} (${schedule.days} days)`);
 });
 

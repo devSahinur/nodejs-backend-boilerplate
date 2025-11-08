@@ -4,7 +4,7 @@ import userController from '../../controllers/user.controller.js';
 import userFileUploadMiddleware from '../../middlewares/fileUpload.js';
 import convertHeicToPngMiddleware from '../../middlewares/converter.js';
 
-const UPLOADS_FOLDER_USERS = "./public/uploads/users";
+const UPLOADS_FOLDER_USERS = './public/uploads/users';
 const uploadUsers = userFileUploadMiddleware(UPLOADS_FOLDER_USERS);
 
 const router = express.Router();
@@ -38,7 +38,7 @@ const router = express.Router();
  *                   items:
  *                     type: object
  */
-router.route("/interest").get(userController.interestList);
+router.route('/interest').get(userController.interestList);
 
 /**
  * @swagger
@@ -70,7 +70,7 @@ router.route("/interest").get(userController.interestList);
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  */
-router.route("/verifyNid").post(auth("common"), userController.verifyNid);
+router.route('/verifyNid').post(auth('common'), userController.verifyNid);
 
 /**
  * @swagger
@@ -101,7 +101,7 @@ router.route("/verifyNid").post(auth("common"), userController.verifyNid);
  *       "403":
  *         $ref: '#/components/responses/Forbidden'
  */
-router.route("/nidVerifyApproval").post(auth("common"), userController.nidVerifyApproval);
+router.route('/nidVerifyApproval').post(auth('common'), userController.nidVerifyApproval);
 
 /**
  * @swagger
@@ -136,7 +136,7 @@ router.route("/nidVerifyApproval").post(auth("common"), userController.nidVerify
  *       "403":
  *         $ref: '#/components/responses/Forbidden'
  */
-router.route("/nidVerifyReject").post(auth("common"), userController.nidVerifyReject);
+router.route('/nidVerifyReject').post(auth('common'), userController.nidVerifyReject);
 
 /**
  * @swagger
@@ -164,7 +164,7 @@ router.route("/nidVerifyReject").post(auth("common"), userController.nidVerifyRe
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  */
-router.route("/nidVerifySubmitList").get(auth("common"), userController.nidVerifySubmitList);
+router.route('/nidVerifySubmitList').get(auth('common'), userController.nidVerifySubmitList);
 
 /**
  * @swagger
@@ -219,7 +219,7 @@ router.route("/nidVerifySubmitList").get(auth("common"), userController.nidVerif
  *       "403":
  *         $ref: '#/components/responses/Forbidden'
  */
-router.route("/").get(auth("common"), userController.getUsers);
+router.route('/').get(auth('common'), userController.getUsers);
 
 /**
  * @swagger
@@ -306,11 +306,11 @@ router.route("/").get(auth("common"), userController.getUsers);
  *         $ref: '#/components/responses/NotFound'
  */
 router
-  .route("/:userId")
-  .get(auth("common"), userController.getUser)
+  .route('/:userId')
+  .get(auth('common'), userController.getUser)
   .patch(
-    auth("common"),
-    [uploadUsers.single("image")],
+    auth('common'),
+    [uploadUsers.single('image')],
     convertHeicToPngMiddleware(UPLOADS_FOLDER_USERS),
     userController.updateUser
   );

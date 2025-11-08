@@ -15,17 +15,12 @@ dotenv.config({ path: path.join(__dirname, '.env.test') });
 
 import { generateLogSummary, getSystemMetrics } from './src/services/logReport.service.js';
 import { generateEmailTemplate } from './src/services/emailReport.service.js';
-import {
-  getSchedulerStatus,
-  getAvailableSchedules,
-  SCHEDULE_PATTERNS,
-  REPORT_DAYS
-} from './src/config/scheduler.js';
+import { getSchedulerStatus, getAvailableSchedules, SCHEDULE_PATTERNS, REPORT_DAYS } from './src/config/scheduler.js';
 import logger from './src/config/logger.js';
 import config from './src/config/config.js';
 
 console.log('🧪 Testing Log Reporting System\n');
-console.log('=' .repeat(50));
+console.log('='.repeat(50));
 
 // Test 1: Verify imports
 console.log('\n✓ Test 1: All imports successful');
@@ -41,7 +36,7 @@ console.log('  - Timezone:', config.logReport.timezone);
 // Test 3: Verify schedule patterns
 console.log('\n⏰ Test 3: Available Schedules');
 const schedules = getAvailableSchedules();
-schedules.forEach(schedule => {
+schedules.forEach((schedule) => {
   console.log(`  - ${schedule.name}: ${schedule.description}`);
 });
 
@@ -75,7 +70,6 @@ try {
   console.log('  ✓ Template length:', emailHtml.length, 'characters');
   console.log('  ✓ Contains HTML:', emailHtml.includes('<!DOCTYPE html>'));
   console.log('  ✓ Contains health status:', emailHtml.includes(summary.summary.healthStatus));
-
 } catch (error) {
   console.error('  ✗ Error in log aggregation:', error.message);
   console.error('  Stack:', error.stack);

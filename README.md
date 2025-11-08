@@ -26,6 +26,7 @@ A **professional, universal, production-ready Node.js backend boilerplate** buil
 ## Features
 
 ### Core Features
+
 - ✅ **RESTful API** with Express.js
 - ✅ **MongoDB** database with Mongoose ODM
 - ✅ **Redis** for caching and queues
@@ -35,6 +36,7 @@ A **professional, universal, production-ready Node.js backend boilerplate** buil
 - ✅ **ES Modules** (import/export)
 
 ### Business Features
+
 - 💳 **Stripe Payment Integration** with webhooks
 - 🔔 **Email Notifications** (Nodemailer)
 - 📱 **Push Notifications** (Firebase Cloud Messaging)
@@ -44,6 +46,7 @@ A **professional, universal, production-ready Node.js backend boilerplate** buil
 - 📤 **File Upload** with Multer
 
 ### DevOps & Infrastructure
+
 - 🐳 **Docker** & **Docker Compose** support
 - 🔄 **Bull Queues** for background jobs
 - 📊 **Prometheus Metrics** endpoint
@@ -136,17 +139,20 @@ Before you begin, ensure you have the following installed on your system:
 This is the **easiest way** to get started. Docker will handle MongoDB, Redis, and the application automatically.
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/devSahinur/nodejs-backend-boilerplate.git
    cd nodejs-backend-boilerplate
    ```
 
 2. **Create environment file**
+
    ```bash
    cp .env.example .env
    ```
 
 3. **Edit `.env` file** (optional - Docker works with defaults)
+
    ```bash
    # Use any text editor
    nano .env
@@ -157,6 +163,7 @@ This is the **easiest way** to get started. Docker will handle MongoDB, Redis, a
    ```
 
 4. **Start all services**
+
    ```bash
    npm run docker:up
    ```
@@ -169,6 +176,7 @@ This is the **easiest way** to get started. Docker will handle MongoDB, Redis, a
    - Start Mongo Express (DB GUI) on port 8081
 
 5. **Verify services are running**
+
    ```bash
    docker-compose ps
    ```
@@ -180,6 +188,7 @@ This is the **easiest way** to get started. Docker will handle MongoDB, Redis, a
    - Mongo Express: http://localhost:8081 (username: `admin`, password: `admin123`)
 
 7. **View logs**
+
    ```bash
    docker-compose logs -f app
    ```
@@ -194,17 +203,20 @@ This is the **easiest way** to get started. Docker will handle MongoDB, Redis, a
 If you prefer to run services locally without Docker:
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/devSahinur/nodejs-backend-boilerplate.git
    cd nodejs-backend-boilerplate
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Ensure MongoDB is running**
+
    ```bash
    # macOS (if installed via Homebrew)
    brew services start mongodb-community
@@ -217,6 +229,7 @@ If you prefer to run services locally without Docker:
    ```
 
 4. **Ensure Redis is running** (optional but recommended)
+
    ```bash
    # macOS
    brew services start redis
@@ -229,6 +242,7 @@ If you prefer to run services locally without Docker:
    ```
 
 5. **Create environment file**
+
    ```bash
    cp .env.example .env
    ```
@@ -236,11 +250,13 @@ If you prefer to run services locally without Docker:
 6. **Configure environment variables** (see [Configuration](#configuration) section)
 
 7. **Create logs directory**
+
    ```bash
    mkdir -p logs
    ```
 
 8. **Seed the database** (optional - creates sample data)
+
    ```bash
    npm run seed
    ```
@@ -251,6 +267,7 @@ If you prefer to run services locally without Docker:
    - Sample products
 
 9. **Start the server**
+
    ```bash
    # Development mode (with hot reload)
    npm run dev
@@ -364,6 +381,7 @@ CLIENT_URL=http://localhost:3000       # Change to production URL in production
 1. Create account at [stripe.com](https://stripe.com)
 2. Get test keys from [Dashboard > API Keys](https://dashboard.stripe.com/test/apikeys)
 3. For webhooks:
+
    ```bash
    # Install Stripe CLI
    brew install stripe/stripe-cli/stripe
@@ -446,6 +464,7 @@ pm2 monit
 Once the server is running, you can access:
 
 ### Swagger UI (Interactive API Docs)
+
 - **URL**: http://localhost:3000/api-docs
 - **Features**:
   - Try out API endpoints directly
@@ -453,7 +472,9 @@ Once the server is running, you can access:
   - See authentication requirements
 
 ### Other Endpoints
+
 - **Health Check**: http://localhost:3000/health
+
   ```json
   {
     "status": "OK",
@@ -472,80 +493,80 @@ Once the server is running, you can access:
 
 ### Authentication
 
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| POST | `/api/v1/auth/register` | Register new user | No |
-| POST | `/api/v1/auth/login` | Login user | No |
-| POST | `/api/v1/auth/logout` | Logout user | Yes |
-| POST | `/api/v1/auth/refresh-tokens` | Refresh auth tokens | No |
-| POST | `/api/v1/auth/forgot-password` | Send password reset email | No |
-| POST | `/api/v1/auth/reset-password` | Reset password | No |
-| POST | `/api/v1/auth/send-verification-email` | Send verification email | Yes |
-| POST | `/api/v1/auth/verify-email` | Verify email | No |
+| Method | Endpoint                               | Description               | Auth Required |
+| ------ | -------------------------------------- | ------------------------- | ------------- |
+| POST   | `/api/v1/auth/register`                | Register new user         | No            |
+| POST   | `/api/v1/auth/login`                   | Login user                | No            |
+| POST   | `/api/v1/auth/logout`                  | Logout user               | Yes           |
+| POST   | `/api/v1/auth/refresh-tokens`          | Refresh auth tokens       | No            |
+| POST   | `/api/v1/auth/forgot-password`         | Send password reset email | No            |
+| POST   | `/api/v1/auth/reset-password`          | Reset password            | No            |
+| POST   | `/api/v1/auth/send-verification-email` | Send verification email   | Yes           |
+| POST   | `/api/v1/auth/verify-email`            | Verify email              | No            |
 
 ### Users
 
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| POST | `/api/v1/users` | Create user | Admin |
-| GET | `/api/v1/users` | Get all users | Admin |
-| GET | `/api/v1/users/:userId` | Get user | Yes |
-| PATCH | `/api/v1/users/:userId` | Update user | Yes |
-| DELETE | `/api/v1/users/:userId` | Delete user | Yes |
+| Method | Endpoint                | Description   | Auth Required |
+| ------ | ----------------------- | ------------- | ------------- |
+| POST   | `/api/v1/users`         | Create user   | Admin         |
+| GET    | `/api/v1/users`         | Get all users | Admin         |
+| GET    | `/api/v1/users/:userId` | Get user      | Yes           |
+| PATCH  | `/api/v1/users/:userId` | Update user   | Yes           |
+| DELETE | `/api/v1/users/:userId` | Delete user   | Yes           |
 
 ### Products
 
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| POST | `/api/v1/products` | Create product | Admin |
-| GET | `/api/v1/products` | Get all products | No |
-| GET | `/api/v1/products/:productId` | Get product | No |
-| GET | `/api/v1/products/slug/:slug` | Get product by slug | No |
-| GET | `/api/v1/products/search?q=query` | Search products | No |
-| GET | `/api/v1/products/featured` | Get featured products | No |
-| GET | `/api/v1/products/category/:category` | Get products by category | No |
-| PATCH | `/api/v1/products/:productId` | Update product | Admin |
-| DELETE | `/api/v1/products/:productId` | Delete product | Admin |
+| Method | Endpoint                              | Description              | Auth Required |
+| ------ | ------------------------------------- | ------------------------ | ------------- |
+| POST   | `/api/v1/products`                    | Create product           | Admin         |
+| GET    | `/api/v1/products`                    | Get all products         | No            |
+| GET    | `/api/v1/products/:productId`         | Get product              | No            |
+| GET    | `/api/v1/products/slug/:slug`         | Get product by slug      | No            |
+| GET    | `/api/v1/products/search?q=query`     | Search products          | No            |
+| GET    | `/api/v1/products/featured`           | Get featured products    | No            |
+| GET    | `/api/v1/products/category/:category` | Get products by category | No            |
+| PATCH  | `/api/v1/products/:productId`         | Update product           | Admin         |
+| DELETE | `/api/v1/products/:productId`         | Delete product           | Admin         |
 
 ### Orders
 
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| POST | `/api/v1/orders` | Create order | Yes |
-| GET | `/api/v1/orders` | Get all orders | Admin |
-| GET | `/api/v1/orders/my-orders` | Get user's orders | Yes |
-| GET | `/api/v1/orders/:orderId` | Get order | Yes |
-| GET | `/api/v1/orders/status/:status` | Get orders by status | Admin |
-| PATCH | `/api/v1/orders/:orderId/status` | Update order status | Admin |
-| POST | `/api/v1/orders/:orderId/cancel` | Cancel order | Yes |
+| Method | Endpoint                         | Description          | Auth Required |
+| ------ | -------------------------------- | -------------------- | ------------- |
+| POST   | `/api/v1/orders`                 | Create order         | Yes           |
+| GET    | `/api/v1/orders`                 | Get all orders       | Admin         |
+| GET    | `/api/v1/orders/my-orders`       | Get user's orders    | Yes           |
+| GET    | `/api/v1/orders/:orderId`        | Get order            | Yes           |
+| GET    | `/api/v1/orders/status/:status`  | Get orders by status | Admin         |
+| PATCH  | `/api/v1/orders/:orderId/status` | Update order status  | Admin         |
+| POST   | `/api/v1/orders/:orderId/cancel` | Cancel order         | Yes           |
 
 ### Payments
 
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| POST | `/api/v1/payments/create-intent` | Create payment intent | Yes |
-| GET | `/api/v1/payments/:paymentIntentId` | Get payment details | Yes |
-| POST | `/api/v1/payments/:paymentIntentId/refund` | Create refund | Admin |
-| POST | `/api/v1/payments/webhook` | Stripe webhook | No |
+| Method | Endpoint                                   | Description           | Auth Required |
+| ------ | ------------------------------------------ | --------------------- | ------------- |
+| POST   | `/api/v1/payments/create-intent`           | Create payment intent | Yes           |
+| GET    | `/api/v1/payments/:paymentIntentId`        | Get payment details   | Yes           |
+| POST   | `/api/v1/payments/:paymentIntentId/refund` | Create refund         | Admin         |
+| POST   | `/api/v1/payments/webhook`                 | Stripe webhook        | No            |
 
 ### Notifications
 
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| POST | `/api/v1/notifications/email` | Send email | Admin |
-| POST | `/api/v1/notifications/push` | Send push notification | Admin |
-| POST | `/api/v1/notifications/push/multicast` | Send to multiple devices | Admin |
-| POST | `/api/v1/notifications/push/topic` | Send to topic | Admin |
-| POST | `/api/v1/notifications/topic/subscribe` | Subscribe to topic | Yes |
-| POST | `/api/v1/notifications/topic/unsubscribe` | Unsubscribe from topic | Yes |
+| Method | Endpoint                                  | Description              | Auth Required |
+| ------ | ----------------------------------------- | ------------------------ | ------------- |
+| POST   | `/api/v1/notifications/email`             | Send email               | Admin         |
+| POST   | `/api/v1/notifications/push`              | Send push notification   | Admin         |
+| POST   | `/api/v1/notifications/push/multicast`    | Send to multiple devices | Admin         |
+| POST   | `/api/v1/notifications/push/topic`        | Send to topic            | Admin         |
+| POST   | `/api/v1/notifications/topic/subscribe`   | Subscribe to topic       | Yes           |
+| POST   | `/api/v1/notifications/topic/unsubscribe` | Unsubscribe from topic   | Yes           |
 
 ### Static Pages
 
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| GET | `/api/v1/static/terms` | Get terms of service | No |
-| GET | `/api/v1/static/privacy` | Get privacy policy | No |
-| GET | `/api/v1/static/about` | Get about page | No |
+| Method | Endpoint                 | Description          | Auth Required |
+| ------ | ------------------------ | -------------------- | ------------- |
+| GET    | `/api/v1/static/terms`   | Get terms of service | No            |
+| GET    | `/api/v1/static/privacy` | Get privacy policy   | No            |
+| GET    | `/api/v1/static/about`   | Get about page       | No            |
 
 ## Testing
 
@@ -590,6 +611,7 @@ tests/
 ```
 
 Example test:
+
 ```javascript
 import request from 'supertest';
 import app from '../src/app.js';
@@ -635,6 +657,7 @@ npm run seed
 ```
 
 This creates:
+
 - **Admin User**:
   - Email: `admin@example.com`
   - Password: `Admin123!`
@@ -656,6 +679,7 @@ npm run docker:up
 # Access Mongo Express
 open http://localhost:8081
 ```
+
 - Username: `admin`
 - Password: `admin123`
 
@@ -734,16 +758,16 @@ LOG_REPORT_TIMEZONE=UTC
 
 ### Schedule Options
 
-| Frequency | Description | Report Days |
-|-----------|-------------|-------------|
-| `daily` | Every day at 9:00 AM | 1 |
-| `weekly` | Every Monday at 9:00 AM | 7 |
-| `biweekly` | Every 2 weeks on Monday at 9:00 AM | 14 |
-| `monthly` | First day of each month at 9:00 AM | 30 |
-| `every3days` | Every 3 days at 9:00 AM | 3 |
-| `every7days` | Every 7 days at 9:00 AM | 7 |
-| `hourly` | Every hour (for testing) | 1 |
-| `every10min` | Every 10 minutes (for testing) | 1 |
+| Frequency    | Description                        | Report Days |
+| ------------ | ---------------------------------- | ----------- |
+| `daily`      | Every day at 9:00 AM               | 1           |
+| `weekly`     | Every Monday at 9:00 AM            | 7           |
+| `biweekly`   | Every 2 weeks on Monday at 9:00 AM | 14          |
+| `monthly`    | First day of each month at 9:00 AM | 30          |
+| `every3days` | Every 3 days at 9:00 AM            | 3           |
+| `every7days` | Every 7 days at 9:00 AM            | 7           |
+| `hourly`     | Every hour (for testing)           | 1           |
+| `every10min` | Every 10 minutes (for testing)     | 1           |
 
 ### Email Report Contents
 
@@ -766,12 +790,12 @@ Each report includes:
 
 ### Health Status Thresholds
 
-| Status | Error Count | Color |
-|--------|-------------|-------|
-| HEALTHY | 0-10 errors | Green |
-| ATTENTION | 11-50 errors | Yellow |
-| WARNING | 51-100 errors | Orange |
-| CRITICAL | 100+ errors | Red |
+| Status    | Error Count   | Color  |
+| --------- | ------------- | ------ |
+| HEALTHY   | 0-10 errors   | Green  |
+| ATTENTION | 11-50 errors  | Yellow |
+| WARNING   | 51-100 errors | Orange |
+| CRITICAL  | 100+ errors   | Red    |
 
 ### Manual Report Trigger
 
@@ -793,13 +817,14 @@ To change when reports are sent, modify the schedule in `src/config/scheduler.js
 
 ```javascript
 const SCHEDULE_PATTERNS = {
-  daily: '0 9 * * *',        // 9:00 AM every day
-  weekly: '0 9 * * 1',       // 9:00 AM every Monday
+  daily: '0 9 * * *', // 9:00 AM every day
+  weekly: '0 9 * * 1', // 9:00 AM every Monday
   // Cron format: minute hour day month day-of-week
 };
 ```
 
 Cron format examples:
+
 - `0 9 * * *` - Daily at 9:00 AM
 - `0 0 * * 0` - Weekly on Sunday at midnight
 - `0 18 * * 5` - Weekly on Friday at 6:00 PM
@@ -825,6 +850,7 @@ Then check your email after 10 minutes to verify the report format.
 ### Troubleshooting
 
 **No emails received?**
+
 1. Check SMTP configuration in `.env`
 2. Verify `LOG_REPORT_ENABLED=true`
 3. Ensure recipients are configured correctly
@@ -832,6 +858,7 @@ Then check your email after 10 minutes to verify the report format.
 5. For Gmail, use an [App Password](https://support.google.com/accounts/answer/185833)
 
 **Want different report formats?**
+
 - Modify `src/services/emailReport.service.js`
 - Customize HTML template in `generateEmailTemplate()`
 - Add custom metrics in `src/services/logReport.service.js`
@@ -841,6 +868,7 @@ Then check your email after 10 minutes to verify the report format.
 ### Option 1: AWS ECS (Recommended for Production)
 
 #### Prerequisites
+
 - AWS Account
 - AWS CLI installed
 - Docker installed
@@ -848,11 +876,13 @@ Then check your email after 10 minutes to verify the report format.
 #### Setup
 
 1. **Configure AWS CLI**
+
    ```bash
    aws configure
    ```
 
 2. **Create ECR Repository**
+
    ```bash
    aws ecr create-repository --repository-name nodejs-backend-boilerplate
    ```
@@ -878,12 +908,14 @@ mv .github/workflows/ci-cd.yml.disabled .github/workflows/ci-cd.yml
 ```
 
 The GitHub Actions workflow will:
+
 - Run tests
 - Build Docker image
 - Push to Amazon ECR
 - Deploy to AWS ECS
 
 **Note**: Make sure to configure GitHub Secrets for AWS credentials:
+
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY`
 - `CODECOV_TOKEN` (optional)
@@ -965,6 +997,7 @@ sudo nano /etc/nginx/sites-available/default
 ```
 
 Nginx config:
+
 ```nginx
 server {
     listen 80;
@@ -1104,11 +1137,13 @@ This boilerplate includes a comprehensive set of npm scripts to streamline your 
 ### Development Scripts
 
 #### `npm run dev`
+
 **Description:** Starts the development server with automatic hot-reload using Nodemon.
 
 **When to use:** During active development when you want the server to automatically restart on file changes.
 
 **Example:**
+
 ```bash
 npm run dev
 ```
@@ -1118,11 +1153,13 @@ npm run dev
 ---
 
 #### `npm start`
+
 **Description:** Starts the production server without hot-reload.
 
 **When to use:** In production environments or when you want to test the production build locally.
 
 **Example:**
+
 ```bash
 NODE_ENV=production npm start
 ```
@@ -1134,21 +1171,25 @@ NODE_ENV=production npm start
 ### Testing Scripts
 
 #### `npm test`
+
 **Description:** Runs all test suites with coverage reporting using Jest.
 
 **When to use:** Before committing code, in CI/CD pipelines, or when you want to verify all tests pass.
 
 **Example:**
+
 ```bash
 npm test
 ```
 
 **What it does:**
+
 - Runs all `*.test.js` and `*.spec.js` files
 - Generates coverage reports in `coverage/` directory
 - Requires 70% code coverage (configurable in `jest.config.js`)
 
 **View coverage report:**
+
 ```bash
 open coverage/lcov-report/index.html  # macOS
 xdg-open coverage/lcov-report/index.html  # Linux
@@ -1157,16 +1198,19 @@ xdg-open coverage/lcov-report/index.html  # Linux
 ---
 
 #### `npm run test:watch`
+
 **Description:** Runs tests in watch mode, re-running tests when files change.
 
 **When to use:** During test-driven development (TDD) or when actively writing tests.
 
 **Example:**
+
 ```bash
 npm run test:watch
 ```
 
 **Features:**
+
 - Automatically re-runs tests on file changes
 - Interactive mode with options to filter tests
 - Press `p` to filter by filename pattern
@@ -1177,16 +1221,19 @@ npm run test:watch
 ### Code Quality Scripts
 
 #### `npm run lint`
+
 **Description:** Checks and automatically fixes code style issues using ESLint.
 
 **When to use:** Before committing code or when you want to enforce coding standards.
 
 **Example:**
+
 ```bash
 npm run lint
 ```
 
 **What it checks:**
+
 - Airbnb JavaScript style guide compliance
 - Import/export statement correctness
 - Potential bugs and code smells
@@ -1197,21 +1244,25 @@ npm run lint
 ---
 
 #### `npm run format`
+
 **Description:** Formats all code files according to Prettier configuration.
 
 **When to use:** Before committing code to ensure consistent formatting across the codebase.
 
 **Example:**
+
 ```bash
 npm run format
 ```
 
 **What it formats:**
+
 - JavaScript/JSON files
 - Markdown documentation
 - YAML configuration files
 
 **Check without formatting:**
+
 ```bash
 npm run format -- --check
 ```
@@ -1223,38 +1274,45 @@ npm run format -- --check
 ### Docker Scripts
 
 #### `npm run docker:up`
+
 **Description:** Starts all Docker containers in detached mode (app, MongoDB, Redis).
 
 **When to use:** When you want to run the entire stack using Docker without installing MongoDB and Redis locally.
 
 **Example:**
+
 ```bash
 npm run docker:up
 ```
 
 **What it starts:**
+
 - Application container on port 3000
 - MongoDB container on port 27017
 - Redis container on port 6379
 - Mongo Express (DB admin UI) on port 8081
 
 **Access services:**
+
 - API: http://localhost:3000
 - Mongo Express: http://localhost:8081 (admin/pass)
 
 ---
 
 #### `npm run docker:down`
+
 **Description:** Stops and removes all Docker containers.
 
 **When to use:** When you're done with Docker development and want to free up resources.
 
 **Example:**
+
 ```bash
 npm run docker:down
 ```
 
 **Remove volumes too:**
+
 ```bash
 npm run docker:down -- -v
 ```
@@ -1262,16 +1320,19 @@ npm run docker:down -- -v
 ---
 
 #### `npm run docker:build`
+
 **Description:** Rebuilds Docker images from scratch.
 
 **When to use:** After changing Dockerfile, package.json dependencies, or when images are corrupted.
 
 **Example:**
+
 ```bash
 npm run docker:build
 ```
 
 **Force rebuild without cache:**
+
 ```bash
 npm run docker:build -- --no-cache
 ```
@@ -1281,16 +1342,19 @@ npm run docker:build -- --no-cache
 ### Database Scripts
 
 #### `npm run seed`
+
 **Description:** Populates the database with sample data for development.
 
 **When to use:** After initial setup or when you need fresh test data.
 
 **Example:**
+
 ```bash
 npm run seed
 ```
 
 **What it creates:**
+
 - Admin user (admin@example.com / Admin123!)
 - Sample products with categories
 - Sample orders
@@ -1300,11 +1364,13 @@ npm run seed
 ---
 
 #### `npm run migrate:up`
+
 **Description:** Runs pending database migrations.
 
 **When to use:** After pulling new code with database schema changes or when deploying to production.
 
 **Example:**
+
 ```bash
 npm run migrate:up
 ```
@@ -1314,11 +1380,13 @@ npm run migrate:up
 ---
 
 #### `npm run migrate:down`
+
 **Description:** Rolls back the last applied migration.
 
 **When to use:** When you need to undo the most recent database migration.
 
 **Example:**
+
 ```bash
 npm run migrate:down
 ```
@@ -1328,11 +1396,13 @@ npm run migrate:down
 ---
 
 #### `npm run migrate:create <name>`
+
 **Description:** Creates a new migration file.
 
 **When to use:** When you need to make database schema changes.
 
 **Example:**
+
 ```bash
 npm run migrate:create add_user_roles
 ```
@@ -1344,20 +1414,24 @@ npm run migrate:create add_user_roles
 ### Git Hooks Script
 
 #### `npm run prepare`
+
 **Description:** Installs Husky git hooks for pre-commit validation.
 
 **When to use:** Automatically runs after `npm install`. Manually run if hooks aren't working.
 
 **Example:**
+
 ```bash
 npm run prepare
 ```
 
 **What it sets up:**
+
 - Pre-commit hook: Runs linting and formatting on staged files
 - Commit-msg hook: Validates commit message format (Conventional Commits)
 
 **Bypass hooks (not recommended):**
+
 ```bash
 git commit --no-verify -m "message"
 ```
@@ -1366,28 +1440,29 @@ git commit --no-verify -m "message"
 
 ### Quick Reference Table
 
-| Script | Use Case | Required Services |
-|--------|----------|-------------------|
-| `npm run dev` | Local development | MongoDB, Redis |
-| `npm start` | Production run | MongoDB, Redis |
-| `npm test` | Testing & CI/CD | MongoDB, Redis |
-| `npm run test:watch` | TDD workflow | MongoDB, Redis |
-| `npm run lint` | Code quality check | None |
-| `npm run format` | Code formatting | None |
-| `npm run docker:up` | Docker development | Docker |
-| `npm run docker:down` | Stop Docker | Docker |
-| `npm run docker:build` | Rebuild images | Docker |
-| `npm run seed` | Generate test data | MongoDB |
-| `npm run migrate:up` | Apply migrations | MongoDB |
-| `npm run migrate:down` | Revert migration | MongoDB |
-| `npm run migrate:create` | Create migration | None |
-| `npm run prepare` | Setup git hooks | None |
+| Script                   | Use Case           | Required Services |
+| ------------------------ | ------------------ | ----------------- |
+| `npm run dev`            | Local development  | MongoDB, Redis    |
+| `npm start`              | Production run     | MongoDB, Redis    |
+| `npm test`               | Testing & CI/CD    | MongoDB, Redis    |
+| `npm run test:watch`     | TDD workflow       | MongoDB, Redis    |
+| `npm run lint`           | Code quality check | None              |
+| `npm run format`         | Code formatting    | None              |
+| `npm run docker:up`      | Docker development | Docker            |
+| `npm run docker:down`    | Stop Docker        | Docker            |
+| `npm run docker:build`   | Rebuild images     | Docker            |
+| `npm run seed`           | Generate test data | MongoDB           |
+| `npm run migrate:up`     | Apply migrations   | MongoDB           |
+| `npm run migrate:down`   | Revert migration   | MongoDB           |
+| `npm run migrate:create` | Create migration   | None              |
+| `npm run prepare`        | Setup git hooks    | None              |
 
 ---
 
 ### Common Workflows
 
 **Starting development for the first time:**
+
 ```bash
 npm install
 cp .env.example .env  # Configure your environment
@@ -1397,6 +1472,7 @@ npm run dev           # Start developing
 ```
 
 **Before committing code:**
+
 ```bash
 npm run lint          # Fix code style issues
 npm run format        # Format all files
@@ -1406,6 +1482,7 @@ git commit -m "feat: your feature"  # Husky hooks run automatically
 ```
 
 **Using Docker:**
+
 ```bash
 npm run docker:build  # First time only
 npm run docker:up     # Start all services
@@ -1414,6 +1491,7 @@ npm run docker:down   # When finished
 ```
 
 **Deploying to production:**
+
 ```bash
 npm run lint
 npm test
@@ -1521,6 +1599,7 @@ stripe listen
 ### ES Module Errors
 
 Ensure all import statements include `.js` extension:
+
 ```javascript
 // ✅ Correct
 import User from './models/user.model.js';

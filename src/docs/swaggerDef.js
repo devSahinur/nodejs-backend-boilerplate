@@ -6,17 +6,14 @@ import config from '../config/config.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const packageJson = JSON.parse(
-  readFileSync(join(__dirname, '../../package.json'), 'utf-8')
-);
+const packageJson = JSON.parse(readFileSync(join(__dirname, '../../package.json'), 'utf-8'));
 
 const swaggerDef = {
   openapi: '3.0.0',
   info: {
     title: 'Matromony API documentation',
     version: packageJson.version,
-    license: {
-    },
+    license: {},
   },
   servers: [
     {
